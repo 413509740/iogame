@@ -16,9 +16,13 @@
  */
 package com.iohao.game.example.interaction.weather.action;
 
+import com.iohao.game.action.skeleton.core.CmdInfo;
+import com.iohao.game.action.skeleton.core.commumication.BroadcastContext;
+import com.iohao.game.bolt.broker.core.client.BrokerClientHelper;
 import com.iohao.game.example.interaction.msg.DemoWeatherMsg;
 import com.iohao.game.action.skeleton.annotation.ActionController;
 import com.iohao.game.action.skeleton.annotation.ActionMethod;
+import com.iohao.game.example.interaction.msg.MatchMsg;
 
 import java.util.Calendar;
 
@@ -44,5 +48,14 @@ public class DemoWeatherAction {
         // 根据当前时间来增加战斗力
         demoWeatherMsg.attack = minute;
         return demoWeatherMsg;
+    }
+
+    @ActionMethod(DemoCmdForWeather.createRoom)
+    public void createRoom(MatchMsg matchMsg) {
+        CmdInfo createRoomCmd = CmdInfo.getCmdInfo(DemoCmdForWeather.cmd, DemoCmdForWeather.createRoom);
+
+        BroadcastContext broadcastContext = BrokerClientHelper.me().getBroadcastContext();
+        // 全服广播：路由、业务数据
+        broadcastContext.broadcast(createRoomCmd, matchMsg);
     }
 }

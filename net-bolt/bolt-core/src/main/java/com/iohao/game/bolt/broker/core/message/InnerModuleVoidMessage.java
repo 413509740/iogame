@@ -14,21 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.iohao.game.example.interaction.fight.action;
+package com.iohao.game.bolt.broker.core.message;
 
-import com.iohao.game.example.common.DemoModuleCmd;
+import com.iohao.game.action.skeleton.protocol.RequestMessage;
+import lombok.Data;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
- * 战斗服的 cmd
+ * 模块之间的访问
+ * <pre>
+ *     如： 模块A 访问 模块B 的某个方法，但是不需要任何返回值
+ *
+ *     如果需要返回值的，see {@link InnerModuleMessage}
+ * </pre>
  *
  * @author 渔民小镇
- * @date 2022-03-24
+ * @date 2022-06-07
  */
-public interface DemoCmdForFight {
-    /** 模块 - 主 cmd : 3 */
-    int cmd = DemoModuleCmd.demoModule_3_fight_cmd;
-
-    /** 示例 fight 方法 */
-    int fight = 0;
-    int testMatch = 1;
+@Data
+public class InnerModuleVoidMessage implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -5740054570053626336L;
+    RequestMessage requestMessage;
 }

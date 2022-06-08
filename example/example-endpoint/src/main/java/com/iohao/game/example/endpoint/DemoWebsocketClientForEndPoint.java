@@ -102,7 +102,7 @@ public class DemoWebsocketClientForEndPoint {
                 try {
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage(), e);
                 }
 
                 // 路由, 对应服务端逻辑服的业务类路由地址 （匹配）

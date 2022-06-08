@@ -63,7 +63,7 @@ public class ChangeUserIdMessageBrokerProcessor extends AsyncUserProcessor<Setti
             SettingUserIdMessageResponse messageResponse = brokerClientProxy.invokeSync(settingUserIdMessage);
             asyncCtx.sendResponse(messageResponse);
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

@@ -70,7 +70,7 @@ public class ResponseMessageExternalProcessor extends AsyncUserProcessor<Respons
                 userSession = UserSessions.me().getUserSession(new UserChannelId(channelId));
             }
         } catch (RuntimeException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             message.setResponseStatus(ActionErrorEnum.verifyIdentity.getCode());
             message.setValidMsg(e.getMessage());
         }

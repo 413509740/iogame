@@ -71,7 +71,7 @@ public class ConnectionEventBrokerProcessor implements ConnectionEventProcessor,
         try {
             brokerServer.getRpcServer().oneway(conn, requestBrokerClientModuleMessage);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
     }

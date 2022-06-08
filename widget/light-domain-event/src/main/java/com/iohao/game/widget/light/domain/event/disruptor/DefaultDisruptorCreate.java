@@ -22,6 +22,7 @@ import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.WaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author 渔民小镇
  * @date 2021-12-26
  */
+@Slf4j
 public class DefaultDisruptorCreate implements DisruptorCreate {
     static final AtomicInteger THREAD_INIT_NUMBER = new AtomicInteger(1);
 
@@ -88,7 +90,7 @@ public class DefaultDisruptorCreate implements DisruptorCreate {
                 domainEventHandlerName = consumeEventHandler.eventHandler().getName();
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return domainEventHandlerName;
     }

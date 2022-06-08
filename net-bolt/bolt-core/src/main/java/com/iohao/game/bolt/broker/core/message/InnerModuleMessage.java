@@ -26,6 +26,8 @@ import java.io.Serializable;
  * 模块之间的访问
  * <pre>
  *     如： 模块A 访问 模块B 的某个方法，因为只有模块B持有这些数据
+ *
+ *     如果不需要返回值的，see {@link InnerModuleVoidMessage}
  * </pre>
  *
  * @author 渔民小镇

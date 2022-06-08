@@ -21,54 +21,66 @@ import com.alipay.remoting.BizContext;
 import com.alipay.remoting.exception.RemotingException;
 import com.alipay.remoting.rpc.protocol.AsyncUserProcessor;
 import com.iohao.game.action.skeleton.protocol.HeadMetadata;
-import com.iohao.game.action.skeleton.protocol.ResponseMessage;
-import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
+import com.iohao.game.bolt.broker.core.message.InnerModuleVoidMessage;
 import com.iohao.game.bolt.broker.server.BrokerServer;
 import com.iohao.game.bolt.broker.server.aware.BrokerServerAware;
 import com.iohao.game.bolt.broker.server.balanced.BalancedManager;
 import com.iohao.game.bolt.broker.server.balanced.region.BrokerClientProxy;
-import com.iohao.game.bolt.broker.server.balanced.ExternalBrokerClientLoadBalanced;
+import com.iohao.game.bolt.broker.server.balanced.region.BrokerClientRegion;
+import lombok.AccessLevel;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
-
 /**
- * 把逻辑服的响应转发到对外服
+ * 模块之间的请求处理
+ * <pre>
+ *     模块间的请求
+ *
+ *     如果需要返回值的，see {@link InnerModuleMessageBrokerProcessor}
+ * </pre>
  *
  * @author 渔民小镇
- * @date 2022-05-14
+ * @date 2022-06-07
  */
 @Slf4j
-public class ResponseMessageBrokerProcessor extends AsyncUserProcessor<ResponseMessage> implements BrokerServerAware {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class InnerModuleVoidMessageBrokerProcessor extends AsyncUserProcessor<InnerModuleVoidMessage> implements BrokerServerAware {
     @Setter
     BrokerServer brokerServer;
 
     @Override
-    public void handleRequest(BizContext bizCtx, AsyncContext asyncCtx, ResponseMessage responseMessage) {
-        if (BrokerGlobalConfig.requestResponseLog) {
-            log.info("把逻辑服的响应转发到对外服 {}", responseMessage.toJsonPretty());
-        }
+    public void handleRequest(BizContext bizCtx, AsyncContext asyncCtx, InnerModuleVoidMessage innerModuleMessage) {
+        // 模块之间的请求处理
+        var requestMessage = innerModuleMessage.getRequestMessage();
+        HeadMetadata headMetadata = requestMessage.getHeadMetadata();
 
-        HeadMetadata headMetadata = responseMessage.getHeadMetadata();
-        int sourceClientId = headMetadata.getSourceClientId();
+        // 得到路由对应的逻辑服区域
+        int cmdMerge = headMetadata.getCmdMerge();
 
         BalancedManager balancedManager = brokerServer.getBalancedManager();
-        ExternalBrokerClientLoadBalanced externalLoadBalanced = balancedManager.getExternalLoadBalanced();
-        BrokerClientProxy brokerClientProxy = externalLoadBalanced.get(sourceClientId);
+        var logicBalanced = balancedManager.getLogicBalanced();
+        BrokerClientRegion brokerClientRegion = logicBalanced.getBoltClientRegion(cmdMerge);
 
-        if (Objects.isNull(brokerClientProxy)) {
-            log.warn("对外服不存在: [{}]", sourceClientId);
+        if (brokerClientRegion == null) {
+            return;
+        }
+
+        // 逻辑服的负载均衡
+        BrokerClientProxy brokerClientProxy = brokerClientRegion.getBoltClientProxy(headMetadata);
+
+        if (brokerClientProxy == null) {
             return;
         }
 
         try {
-            // 转发 给 对外服务器
-            brokerClientProxy.oneway(responseMessage);
+            // 请求方请求其它服务器得到的响应数据
+            brokerClientProxy.oneway(requestMessage);
         } catch (RemotingException | InterruptedException e) {
             log.error(e.getMessage(), e);
         }
     }
+
 
     /**
      * 指定感兴趣的请求数据类型，该 UserProcessor 只对感兴趣的请求类型的数据进行处理；
@@ -80,6 +92,6 @@ public class ResponseMessageBrokerProcessor extends AsyncUserProcessor<ResponseM
      */
     @Override
     public String interest() {
-        return ResponseMessage.class.getName();
+        return InnerModuleVoidMessage.class.getName();
     }
 }

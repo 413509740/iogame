@@ -18,6 +18,7 @@ package com.iohao.game.bolt.broker.core.client;
 
 import com.iohao.game.action.skeleton.core.commumication.BroadcastContext;
 import com.iohao.game.action.skeleton.core.commumication.BrokerClientContext;
+import com.iohao.game.action.skeleton.core.commumication.InvokeModuleContext;
 import com.iohao.game.action.skeleton.core.commumication.ProcessorContext;
 import com.iohao.game.common.kit.attr.AttrOptionDynamic;
 import com.iohao.game.common.kit.attr.AttrOptions;
@@ -58,6 +59,14 @@ public class BrokerClientHelper implements AttrOptionDynamic {
         }
 
         return this.brokerClient.getProcessorContext();
+    }
+
+    public InvokeModuleContext getInvokeModuleContext() {
+        if (this.brokerClient == null) {
+            return null;
+        }
+
+        return this.brokerClient.getInvokeModuleContext();
     }
 
     private BrokerClientHelper() {

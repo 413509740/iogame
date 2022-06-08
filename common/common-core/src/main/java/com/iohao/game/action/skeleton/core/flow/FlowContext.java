@@ -18,11 +18,10 @@ package com.iohao.game.action.skeleton.core.flow;
 
 import com.iohao.game.action.skeleton.core.*;
 import com.iohao.game.action.skeleton.core.commumication.BrokerClientContext;
+import com.iohao.game.action.skeleton.core.commumication.InvokeModuleContext;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowAttr;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowOption;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowOptionDynamic;
-import com.iohao.game.action.skeleton.core.flow.codec.DataCodec;
-import com.iohao.game.action.skeleton.protocol.HeadMetadata;
 import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
 import com.iohao.game.action.skeleton.protocol.collect.ResponseCollectMessage;
@@ -34,7 +33,6 @@ import lombok.experimental.FieldDefaults;
 import org.jctools.maps.NonBlockingHashMap;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 业务框架 flow 上下文
@@ -83,7 +81,7 @@ public final class FlowContext implements FlowOptionDynamic {
      * @return cmdInfo
      */
     public CmdInfo getCmdInfo(int cmd, int subCmd) {
-        return CmdInfoFlyweightFactory.me().getCmdInfo(cmd, subCmd);
+        return CmdInfo.getCmdInfo(cmd, subCmd);
     }
 
     /**
@@ -100,13 +98,11 @@ public final class FlowContext implements FlowOptionDynamic {
      * @return pb 对象
      */
     public <T> T invokeModuleMessageData(CmdInfo cmdInfo, Object data, Class<T> clazz) {
-        // 其他逻辑服给回的响应
-        ResponseMessage responseMessage = this.invokeModuleMessage(cmdInfo, data);
+        // 当前项目启动的服务上下文
+        BrokerClientContext brokerClientContext = this.option(FlowAttr.brokerClientContext);
+        InvokeModuleContext invokeModuleContext = brokerClientContext.getInvokeModuleContext();
 
-        DataCodec dataCodec = this.option(FlowAttr.dataCodec);
-        // 将字节解析成对象
-        byte[] dataContent = responseMessage.getData();
-        return dataCodec.decode(dataContent, clazz);
+        return invokeModuleContext.invokeModuleMessageData(cmdInfo, data, clazz);
     }
 
     /**
@@ -139,10 +135,25 @@ public final class FlowContext implements FlowOptionDynamic {
     public ResponseMessage invokeModuleMessage(CmdInfo cmdInfo, Object data) {
 
         RequestMessage requestMessage = getRequestMessage(cmdInfo, data);
-
         // 当前项目启动的服务上下文
         BrokerClientContext brokerClientContext = this.option(FlowAttr.brokerClientContext);
-        return brokerClientContext.invokeModuleMessage(requestMessage);
+        InvokeModuleContext invokeModuleContext = brokerClientContext.getInvokeModuleContext();
+
+        return invokeModuleContext.invokeModuleMessage(requestMessage);
+    }
+
+    /**
+     * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
+     * <pre>
+     *     相关文档
+     *     https://www.yuque.com/iohao/game/anguu6
+     * </pre>
+     *
+     * @param cmdInfo cmdInfo
+     * @return ResponseMessage
+     */
+    public ResponseMessage invokeModuleMessage(CmdInfo cmdInfo) {
+        return this.invokeModuleMessage(cmdInfo, null);
     }
 
     /**
@@ -161,10 +172,11 @@ public final class FlowContext implements FlowOptionDynamic {
      */
     public ResponseCollectMessage invokeModuleCollectMessage(CmdInfo cmdInfo, Object data) {
         RequestMessage requestMessage = getRequestMessage(cmdInfo, data);
-
         // 当前项目启动的服务上下文
         BrokerClientContext brokerClientContext = this.option(FlowAttr.brokerClientContext);
-        return brokerClientContext.invokeModuleCollectMessage(requestMessage);
+        InvokeModuleContext invokeModuleContext = brokerClientContext.getInvokeModuleContext();
+
+        return invokeModuleContext.invokeModuleCollectMessage(requestMessage);
     }
 
     /**
@@ -184,21 +196,18 @@ public final class FlowContext implements FlowOptionDynamic {
         return invokeModuleCollectMessage(cmdInfo, null);
     }
 
-    private <T> T invokeModuleMessageData(CmdInfoRoute cmdInfoRoute, Object data, Class<T> clazz) {
-        return this.invokeModuleMessageData(cmdInfoRoute.getCmdInfo(), data, clazz);
-    }
-
     private RequestMessage getRequestMessage(CmdInfo cmdInfo, Object data) {
-        HeadMetadata headMetadata = new HeadMetadata()
+        RequestMessage requestMessage = BarMessageKit.createRequestMessage(cmdInfo, data);
+
+        /*
+         * 通过 flowContext 上下文创建的 RequestMessage 把userId、extJsonField 添加上
+         * 理论上内部模块通讯也很少用得上这些信息
+         */
+        String extJsonField = this.request.getHeadMetadata().getExtJsonField();
+        requestMessage.getHeadMetadata()
                 .setUserId(this.getUserId())
-                .setCmdInfo(cmdInfo);
-
-        RequestMessage requestMessage = new RequestMessage();
-        requestMessage.setHeadMetadata(headMetadata);
-
-        if (Objects.nonNull(data)) {
-            requestMessage.setData(data);
-        }
+                .setExtJsonField(extJsonField)
+        ;
 
         return requestMessage;
     }

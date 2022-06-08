@@ -82,7 +82,7 @@ public class ClusterMessageListenerImpl implements ClusterMessageListener {
                     try {
                         brokerClientProxy.oneway(brokerClusterMessage);
                     } catch (RemotingException | InterruptedException e) {
-                        e.printStackTrace();
+                        log.error(e.getMessage(), e);
                     }
                 });
     }

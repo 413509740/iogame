@@ -100,7 +100,7 @@ public final class ExternalServer {
             // 启动对外服
             this.doStart();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

@@ -18,6 +18,7 @@ package com.iohao.game.common.internal;
 
 
 import com.iohao.game.common.kit.ClassScanner;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -28,6 +29,7 @@ import java.util.function.Predicate;
  * @author 渔民小镇
  * @date 2021-12-20
  */
+@Slf4j
 public class BootItemConfigKit {
     /**
      * 加载配置
@@ -52,7 +54,7 @@ public class BootItemConfigKit {
                 BootItemConfig itemConfig = (BootItemConfig) clazz.getDeclaredConstructor().newInstance();
                 itemConfig.config();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }

@@ -80,8 +80,7 @@ public class ExtRequestMessageClientProcessor extends AsyncUserProcessor<ExtRequ
         try {
             brokerClient.oneway(responseMessage);
         } catch (RemotingException e) {
-            e.printStackTrace();
-            log.info(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
 
     }

@@ -88,7 +88,7 @@ public record Broadcast(BrokerClientItem brokerClientItem) {
         try {
             this.brokerClientItem.oneway(broadcastMessage);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         if (DevConfig.me().isBroadcastLog()) {

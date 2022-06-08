@@ -17,7 +17,7 @@
 package com.iohao.game.common.kit;
 
 import cn.hutool.core.collection.ConcurrentHashSet;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +37,7 @@ import java.util.jar.JarFile;
  * @author 渔民小镇
  * @date 2021-12-12
  */
-@Data
+@Slf4j
 public class ClassScanner {
     /** 需要扫描的包名 */
     final String packagePath;
@@ -79,7 +79,7 @@ public class ClassScanner {
                         scanFile(url);
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage(), e);
                 }
             });
 
@@ -194,7 +194,7 @@ public class ClassScanner {
         try {
             clazz = classLoader.loadClass(className);
         } catch (Throwable e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         if (clazz != null && !clazzSet.contains(clazz)) {

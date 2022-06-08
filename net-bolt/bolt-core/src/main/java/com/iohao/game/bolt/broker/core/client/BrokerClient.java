@@ -24,6 +24,7 @@ import com.alipay.remoting.rpc.protocol.UserProcessor;
 import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.action.skeleton.core.commumication.BroadcastContext;
 import com.iohao.game.action.skeleton.core.commumication.BrokerClientContext;
+import com.iohao.game.action.skeleton.core.commumication.InvokeModuleContext;
 import com.iohao.game.action.skeleton.core.commumication.ProcessorContext;
 import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
@@ -49,6 +50,7 @@ import java.util.function.Supplier;
  * 对外服、逻辑服都是 broker 的 client
  * <pre>
  *     see {@link BrokerClientBuilder#build()}
+ *     see {@link BrokerClientHelper}
  * </pre>
  *
  * @author 渔民小镇
@@ -123,6 +125,21 @@ public class BrokerClient implements BrokerClientContext {
         return this.brokerClientManager.next();
     }
 
+    @Override
+    public BroadcastContext getBroadcastContext() {
+        return next();
+    }
+
+    @Override
+    public ProcessorContext getProcessorContext() {
+        return next();
+    }
+
+    @Override
+    public InvokeModuleContext getInvokeModuleContext() {
+        return next();
+    }
+
     public Object invokeSync(final Object request, final int timeoutMillis) throws RemotingException, InterruptedException {
         BrokerClientItem nextClient = next();
         return nextClient.invokeSync(request, timeoutMillis);
@@ -158,15 +175,6 @@ public class BrokerClient implements BrokerClientContext {
         nextClient.broadcast(responseMessage);
     }
 
-    @Override
-    public BroadcastContext getBroadcastContext() {
-        return next();
-    }
-
-    @Override
-    public ProcessorContext getProcessorContext() {
-        return next();
-    }
 
     @Override
     public ResponseMessage invokeModuleMessage(RequestMessage requestMessage) {
@@ -186,7 +194,7 @@ public class BrokerClient implements BrokerClientContext {
             BrokerClientItem nextClient = next();
             nextClient.oneway(responseObject);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

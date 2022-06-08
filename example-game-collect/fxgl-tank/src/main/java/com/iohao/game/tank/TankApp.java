@@ -108,7 +108,7 @@ public class TankApp extends GameApplication {
         try {
             TankWebsocketClient.me().start();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

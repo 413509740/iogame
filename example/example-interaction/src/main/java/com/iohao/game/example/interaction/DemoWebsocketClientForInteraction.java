@@ -16,11 +16,10 @@
  */
 package com.iohao.game.example.interaction;
 
-import com.iohao.game.example.interaction.msg.DemoFightMsg;
-import com.iohao.game.example.interaction.fight.action.DemoCmdForFight;
-import com.iohao.game.common.kit.ProtoKit;
 import com.iohao.game.bolt.broker.client.external.bootstrap.message.ExternalMessage;
 import com.iohao.game.bolt.broker.client.external.bootstrap.message.ExternalMessageCmdCode;
+import com.iohao.game.common.kit.ProtoKit;
+import com.iohao.game.example.interaction.fight.action.DemoCmdForFight;
 import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
@@ -55,7 +54,7 @@ public class DemoWebsocketClientForInteraction {
 
                 // 路由, 对应服务端逻辑服的业务类路由地址
                 int cmd = DemoCmdForFight.cmd;
-                int subCmd = DemoCmdForFight.fight;
+                int subCmd = DemoCmdForFight.testMatch;
 
                 // 游戏框架内置的协议， 与游戏前端相互通讯的协议
                 ExternalMessage externalMessage = new ExternalMessage();
@@ -76,11 +75,11 @@ public class DemoWebsocketClientForInteraction {
                 byte[] dataContent = byteBuffer.array();
                 ExternalMessage message = ProtoKit.parseProtoByte(dataContent, ExternalMessage.class);
                 log.info("收到消息 ExternalMessage ========== \n{}", message);
-                byte[] data = message.getData();
-                if (data != null) {
-                    DemoFightMsg demoFightMsg = ProtoKit.parseProtoByte(data, DemoFightMsg.class);
-                    log.info("DemoFightRes ========== \n{}", demoFightMsg);
-                }
+//                byte[] data = message.getData();
+//                if (data != null) {
+//                    DemoFightMsg demoFightMsg = ProtoKit.parseProtoByte(data, DemoFightMsg.class);
+//                    log.info("DemoFightRes ========== \n{}", demoFightMsg);
+//                }
             }
 
             @Override

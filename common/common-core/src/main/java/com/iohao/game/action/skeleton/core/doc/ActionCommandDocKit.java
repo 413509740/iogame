@@ -21,6 +21,7 @@ import com.iohao.game.common.kit.ClassScanner;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import java.util.Map;
  * @author 渔民小镇
  * @date 2022-01-28
  */
+@Slf4j
 @UtilityClass
 public class ActionCommandDocKit {
 
@@ -81,7 +83,7 @@ public class ActionCommandDocKit {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
 
         }

@@ -16,37 +16,29 @@
  */
 package com.iohao.game.action.skeleton.core;
 
+import com.iohao.game.action.skeleton.protocol.HeadMetadata;
+import com.iohao.game.action.skeleton.protocol.RequestMessage;
+import lombok.experimental.UtilityClass;
+
+import java.util.Objects;
+
 /**
- * cmd 路由
- * <pre>
- *     一般配合枚举使用，用来描述路由
- *     这里先做一个预留
- * </pre>
- *
  * @author 渔民小镇
- * @date 2022-03-24
+ * @date 2022-06-07
  */
-public interface CmdInfoRoute {
-    /**
-     * 主路由
-     *
-     * @return 主路由
-     */
-    int getCmd();
+@UtilityClass
+public class BarMessageKit {
+    public RequestMessage createRequestMessage(CmdInfo cmdInfo, Object data) {
+        HeadMetadata headMetadata = new HeadMetadata()
+                .setCmdInfo(cmdInfo);
 
-    /**
-     * 子路由
-     *
-     * @return 子路由
-     */
-    int getSubCmd();
+        RequestMessage requestMessage = new RequestMessage();
+        requestMessage.setHeadMetadata(headMetadata);
 
-    /**
-     * 命令路由信息
-     *
-     * @return CmdInfo
-     */
-    default CmdInfo getCmdInfo() {
-        return CmdInfoFlyweightFactory.me().getCmdInfo(getCmd(), getSubCmd());
+        if (Objects.nonNull(data)) {
+            requestMessage.setData(data);
+        }
+
+        return requestMessage;
     }
 }

@@ -17,6 +17,7 @@
 package com.iohao.game.widget.light.profile;
 
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 渔民小镇
  * @date 2022-01-02
  */
+@Slf4j
 @ToString
 public class Profile {
     /** key */
@@ -145,7 +147,7 @@ public class Profile {
                 this.load(properties);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         });
     }

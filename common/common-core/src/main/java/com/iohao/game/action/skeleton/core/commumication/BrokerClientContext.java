@@ -25,7 +25,7 @@ import com.iohao.game.action.skeleton.protocol.collect.ResponseCollectMessage;
 /**
  * 当前服务器上下文
  * <pre>
- *     see BrokerClientHolder
+ *     see BrokerClientHelper
  * </pre>
  *
  * @author 渔民小镇
@@ -56,11 +56,22 @@ public interface BrokerClientContext extends AsyncContext {
     ProcessorContext getProcessorContext();
 
     /**
+     * 得到 内部模块通讯上下文
+     *
+     * @return 内部模块通讯上下文
+     */
+    InvokeModuleContext getInvokeModuleContext();
+
+    /**
      * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
+     * <pre>
+     *     请用 {@link InvokeModuleContext#invokeModuleMessage(RequestMessage)}
+     * </pre>
      *
      * @param requestMessage requestMessage
      * @return ResponseMessage
      */
+    @Deprecated
     ResponseMessage invokeModuleMessage(RequestMessage requestMessage);
 
     /**
@@ -72,9 +83,12 @@ public interface BrokerClientContext extends AsyncContext {
      *     具体的意思可以参考文档中的说明
      *     https://www.yuque.com/iohao/game/rf9rb9
      * </pre>
-     *
+     * <pre>
+     *     请用 {@link InvokeModuleContext#invokeModuleCollectMessage(RequestMessage)}
+     * </pre>
      * @param requestMessage requestMessage
      * @return ResponseAggregationMessage
      */
+    @Deprecated
     ResponseCollectMessage invokeModuleCollectMessage(RequestMessage requestMessage);
 }

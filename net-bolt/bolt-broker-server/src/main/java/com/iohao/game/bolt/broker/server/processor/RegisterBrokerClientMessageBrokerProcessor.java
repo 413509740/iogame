@@ -77,7 +77,7 @@ public class RegisterBrokerClientMessageBrokerProcessor extends AsyncUserProcess
         try {
             this.brokerServer.getRpcServer().oneway(bizCtx.getConnection(), brokerClusterMessage);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

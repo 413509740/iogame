@@ -55,7 +55,7 @@ public class DemoUserHook implements UserHook {
             // 由内部逻辑服转发用户请求到游戏网关，在由网关转到具体的业务逻辑服
             ExternalKit.requestGateway(userSession, requestMessage);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 }

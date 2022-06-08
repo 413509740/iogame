@@ -31,16 +31,20 @@ import com.iohao.game.bolt.broker.server.balanced.BalancedManager;
 import com.iohao.game.bolt.broker.server.balanced.region.BrokerClientProxy;
 import com.iohao.game.bolt.broker.server.balanced.region.BrokerClientRegion;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 模块之间的请求处理
  * <pre>
  *     模块间的请求
+ *
+ *     如果不需要返回值的，see {@link InnerModuleVoidMessageBrokerProcessor}
  * </pre>
  *
  * @author 渔民小镇
  * @date 2022-05-14
  */
+@Slf4j
 public class InnerModuleMessageBrokerProcessor extends AsyncUserProcessor<InnerModuleMessage> implements BrokerServerAware {
     @Setter
     BrokerServer brokerServer;
@@ -77,7 +81,7 @@ public class InnerModuleMessageBrokerProcessor extends AsyncUserProcessor<InnerM
             // 将响应数据给回请求方
             asyncCtx.sendResponse(responseMessage);
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(),e);
         }
     }
 

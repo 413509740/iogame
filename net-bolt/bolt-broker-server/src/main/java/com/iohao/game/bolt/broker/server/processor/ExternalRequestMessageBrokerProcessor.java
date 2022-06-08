@@ -81,10 +81,9 @@ public class ExternalRequestMessageBrokerProcessor extends AsyncUserProcessor<Re
         }
 
         try {
-
             brokerClientProxy.oneway(request);
         } catch (RemotingException | InterruptedException | NullPointerException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
     }
@@ -115,7 +114,7 @@ public class ExternalRequestMessageBrokerProcessor extends AsyncUserProcessor<Re
         try {
             rpcServer.oneway(connection, responseMessage);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

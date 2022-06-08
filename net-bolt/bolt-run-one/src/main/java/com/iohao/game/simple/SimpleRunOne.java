@@ -118,7 +118,7 @@ public class SimpleRunOne {
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         // 生成游戏文档

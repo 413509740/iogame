@@ -21,6 +21,7 @@ import com.iohao.game.widget.light.domain.event.disruptor.DisruptorCreate;
 import com.iohao.game.widget.light.domain.event.disruptor.EventDisruptor;
 import com.iohao.game.widget.light.domain.event.message.DomainEventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
  * @author 渔民小镇
  * @date 2021-12-26
  */
+@Slf4j
 public class DomainEventContext {
 
     final DomainEventContextParam param;
@@ -73,7 +75,7 @@ public class DomainEventContext {
                 String name = type.getTypeName();
                 return Class.forName(name);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
                 return null;
             }
         })).forEach((Class<?> topic, List<DomainEventHandler<?>> eventHandlers) -> {

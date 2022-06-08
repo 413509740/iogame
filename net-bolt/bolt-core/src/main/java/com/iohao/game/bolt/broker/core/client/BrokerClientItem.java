@@ -25,6 +25,7 @@ import com.alipay.remoting.rpc.RpcClient;
 import com.alipay.remoting.rpc.protocol.UserProcessor;
 import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.action.skeleton.core.commumication.BroadcastContext;
+import com.iohao.game.action.skeleton.core.commumication.InvokeModuleContext;
 import com.iohao.game.action.skeleton.core.commumication.ProcessorContext;
 import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
@@ -37,6 +38,7 @@ import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
 import com.iohao.game.bolt.broker.core.message.BrokerClientItemConnectMessage;
 import com.iohao.game.bolt.broker.core.message.BrokerClientModuleMessage;
 import com.iohao.game.bolt.broker.core.message.InnerModuleMessage;
+import com.iohao.game.bolt.broker.core.message.InnerModuleVoidMessage;
 import com.iohao.game.common.kit.MurmurHash3;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -62,8 +64,7 @@ import java.util.concurrent.TimeUnit;
 @Setter
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BrokerClientItem implements BroadcastContext, ProcessorContext {
-
+public class BrokerClientItem implements BroadcastContext, ProcessorContext, InvokeModuleContext {
 
     public enum Status {
         /** 活跃 */
@@ -127,6 +128,7 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext {
         this.broadcast.broadcast(responseMessage);
     }
 
+    @Override
     public ResponseMessage invokeModuleMessage(RequestMessage requestMessage) {
         InnerModuleMessage moduleMessage = new InnerModuleMessage();
         moduleMessage.setRequestMessage(requestMessage);
@@ -136,12 +138,25 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext {
         try {
             o = (ResponseMessage) this.invokeSync(moduleMessage);
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return o;
     }
 
+    @Override
+    public void invokeModuleVoidMessage(RequestMessage requestMessage) {
+        InnerModuleVoidMessage moduleVoidMessage = new InnerModuleVoidMessage();
+        moduleVoidMessage.setRequestMessage(requestMessage);
+
+        try {
+            this.oneway(moduleVoidMessage);
+        } catch (RemotingException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    @Override
     public ResponseCollectMessage invokeModuleCollectMessage(RequestMessage requestMessage) {
         RequestCollectMessage requestCollectMessage = new RequestCollectMessage()
                 .setRequestMessage(requestMessage);
@@ -149,11 +164,12 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext {
         try {
             return (ResponseCollectMessage) this.invokeSync(requestCollectMessage);
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
     }
+
 
     @Override
     public void invokeOneway(Object message) {
@@ -198,7 +214,8 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext {
         try {
             rpcClient.oneway(connection, responseObject);
         } catch (RemotingException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
+
         }
     }
 
@@ -223,9 +240,7 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext {
             this.brokerClient.getBrokerClientManager().resetSelector();
 
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
-            String errMsg = "RemotingException caught in oneway! address:" + address;
-            log.error(errMsg);
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -239,9 +254,7 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext {
         try {
             this.rpcClient.oneway(address, message);
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
-            String errMsg = "RemotingException caught in oneway! address:" + address;
-            log.error(errMsg);
+            log.error(e.getMessage(), e);
         }
     }
 }

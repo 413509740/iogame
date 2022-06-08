@@ -107,7 +107,7 @@ public class ClusterSimpleRunOne {
             // 暂停 0.5 秒，让本地网关集群先启动完成
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         // 启动逻辑服、对外服
@@ -147,7 +147,7 @@ public class ClusterSimpleRunOne {
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         // 生成游戏文档

@@ -14,21 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.iohao.game.example.interaction.fight.action;
+package com.iohao.game.example.interaction.msg;
 
-import com.iohao.game.example.common.DemoModuleCmd;
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
+import lombok.AccessLevel;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
- * 战斗服的 cmd
- *
  * @author 渔民小镇
- * @date 2022-03-24
+ * @date 2022-06-08
  */
-public interface DemoCmdForFight {
-    /** 模块 - 主 cmd : 3 */
-    int cmd = DemoModuleCmd.demoModule_3_fight_cmd;
-
-    /** 示例 fight 方法 */
-    int fight = 0;
-    int testMatch = 1;
+@ToString
+@ProtobufClass
+@FieldDefaults(level = AccessLevel.PUBLIC)
+public class MatchMsg {
+    String description;
 }

@@ -19,6 +19,7 @@ package com.iohao.game.common.kit;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ import java.util.Objects;
  * @author 渔民小镇
  * @date 2022-01-11
  */
+@Slf4j
 @UtilityClass
 public class ProtoKit {
     final byte[] emptyBytes = new byte[0];
@@ -49,7 +51,7 @@ public class ProtoKit {
         try {
             return codec.encode(data);
         } catch (Throwable e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return emptyBytes;
@@ -74,7 +76,7 @@ public class ProtoKit {
         try {
             return codec.decode(data);
         } catch (Throwable e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;

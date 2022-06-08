@@ -31,4 +31,5 @@ public interface DemoCmdForWeather {
 
     /** 示例 今天天气 方法 */
     int todayWeather = 0;
+    int createRoom = 1;
 }

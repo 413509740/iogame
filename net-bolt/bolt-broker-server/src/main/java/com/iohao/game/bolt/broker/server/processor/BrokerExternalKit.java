@@ -21,11 +21,13 @@ import com.iohao.game.bolt.broker.server.BrokerServer;
 import com.iohao.game.bolt.broker.server.balanced.BalancedManager;
 import com.iohao.game.bolt.broker.server.balanced.region.BrokerClientProxy;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 渔民小镇
  * @date 2022-05-28
  */
+@Slf4j
 @UtilityClass
 class BrokerExternalKit {
     void sendMessageToExternals(BrokerServer brokerServer, Object message) {
@@ -38,7 +40,7 @@ class BrokerExternalKit {
                 brokerClientProxy.oneway(message);
             }
         } catch (RemotingException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(),e);
         }
     }
 }

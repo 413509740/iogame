@@ -132,7 +132,7 @@ public class InnerModuleRequestCollectMessageBrokerProcessor extends AsyncUserPr
                     // 请求方请求其它服务器得到的响应数据
                     responseMessage = brokerClientProxy.invokeSync(requestMessage);
                 } catch (RemotingException | InterruptedException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage(), e);
                     return null;
                 }
 
