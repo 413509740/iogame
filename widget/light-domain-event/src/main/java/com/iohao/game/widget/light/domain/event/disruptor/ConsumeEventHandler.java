@@ -23,8 +23,7 @@ import com.lmax.disruptor.EventHandler;
  * @author 渔民小镇
  * @date 2021-12-26
  */
-public record ConsumeEventHandler(
-        DomainEventHandler<?> eventHandler) implements EventHandler<EventDisruptor> {
+public record ConsumeEventHandler(DomainEventHandler<?> eventHandler) implements EventHandler<EventDisruptor> {
 
     @Override
     public void onEvent(EventDisruptor event, long sequence, boolean endOfBatch) {

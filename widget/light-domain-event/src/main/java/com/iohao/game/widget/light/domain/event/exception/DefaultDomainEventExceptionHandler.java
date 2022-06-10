@@ -34,11 +34,11 @@ public class DefaultDomainEventExceptionHandler implements ExceptionHandler {
 
     @Override
     public void handleOnStartException(Throwable ex) {
-        log.error("{}", ex.getMessage());
+        log.error(ex.getMessage(), ex);
     }
 
     @Override
     public void handleOnShutdownException(Throwable ex) {
-        log.error("{}", ex.getMessage());
+        log.error(ex.getMessage(), ex);
     }
 }

@@ -52,8 +52,8 @@ public class DomainEventPublish {
      * @param domainSource 领域消息
      */
     public void send(final Object domainSource) {
-        if (domainSource instanceof DomainEventSource) {
-            send((DomainEventSource) domainSource);
+        if (domainSource instanceof DomainEventSource domainEventSource) {
+            send(domainEventSource);
         } else {
             // 获取主题
             Class<?> topic = domainSource instanceof Topic ? ((Topic) domainSource).getTopic() : domainSource.getClass();
