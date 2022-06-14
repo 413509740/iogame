@@ -23,6 +23,8 @@ import com.iohao.game.action.skeleton.annotation.ActionMethod;
 import com.iohao.game.action.skeleton.core.exception.MsgException;
 
 /**
+ * 示例action
+ *
  * @author 渔民小镇
  * @date 2022-02-24
  */

@@ -45,4 +45,8 @@ public abstract class AbstractPlayer implements Serializable {
     int seat;
     /** true - 已准备 */
     boolean ready;
+    /** true robot */
+    boolean robot;
+    /** true 模仿 robot 机制, 但并不是真正的 robot; 类似于 robot 托管 */
+    boolean maybeRobot;
 }
