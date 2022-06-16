@@ -33,7 +33,7 @@ public interface BroadcastContext {
      * 广播消息给指定用户列表
      *
      * @param responseMessage 消息
-     * @param userIdList      指定用户列表
+     * @param userIdList      指定用户列表 (如果为 null 或 empty 就不会触发)
      */
     void broadcast(ResponseMessage responseMessage, Collection<Long> userIdList);
 

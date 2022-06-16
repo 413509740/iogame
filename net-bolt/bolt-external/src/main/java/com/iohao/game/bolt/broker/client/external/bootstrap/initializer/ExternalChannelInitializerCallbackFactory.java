@@ -22,8 +22,7 @@ import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.function.Supplier;
 
 /**
@@ -35,7 +34,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class ExternalChannelInitializerCallbackFactory {
 
-    final Map<ExternalJoinEnum, Supplier<ExternalChannelInitializerCallback>> map = new HashMap<>();
+    private final EnumMap<ExternalJoinEnum, Supplier<ExternalChannelInitializerCallback>> map = new EnumMap<>(ExternalJoinEnum.class);
 
     /**
      * 创建 ExternalChannelInitializerCallback，Channel 初始化的业务编排 (自定义业务编排)

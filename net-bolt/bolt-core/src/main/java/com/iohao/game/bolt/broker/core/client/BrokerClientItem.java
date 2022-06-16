@@ -39,6 +39,7 @@ import com.iohao.game.bolt.broker.core.message.BrokerClientItemConnectMessage;
 import com.iohao.game.bolt.broker.core.message.BrokerClientModuleMessage;
 import com.iohao.game.bolt.broker.core.message.InnerModuleMessage;
 import com.iohao.game.bolt.broker.core.message.InnerModuleVoidMessage;
+import com.iohao.game.common.kit.CollKit;
 import com.iohao.game.common.kit.MurmurHash3;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -115,6 +116,12 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext, Inv
 
     @Override
     public void broadcast(ResponseMessage responseMessage, Collection<Long> userIdList) {
+
+        if (CollKit.isEmpty(userIdList)) {
+            log.warn("广播无效 userIdList : {}", userIdList);
+            return;
+        }
+
         this.broadcast.broadcast(responseMessage, userIdList);
     }
 

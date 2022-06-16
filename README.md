@@ -1,4 +1,34 @@
-[![JDK 17](https://img.shields.io/badge/JDK-17-green.svg "JDK 17")]()
+<h1 align="center" style="text-align:center;">
+  ioGame
+</h1>
+<p align="center">
+	<strong>国内首个基于蚂蚁金服 SOFABolt 的 java 网络游戏服务器框架；无锁异步化、事件驱动的架构设计；</strong>
+	<br>
+	<strong>通过 ioGame 可以很容易的搭建出一个集群无中心节点、分步式的网络游戏服务器！</strong>
+</p>
+<p align="center">
+	<a href="https://www.yuque.com/iohao/game">https://www.yuque.com/iohao/game</a>
+</p>
+
+<p align="center">
+	<a target="_blank" href="https://www.oracle.com/java/technologies/downloads/#java17">
+		<img src="https://img.shields.io/badge/JDK-17-green.svg" alt="JDK 17" />
+	</a>
+	<br>
+	<a target="_blank" href="https://license.coscl.org.cn/Apache2/">
+		<img src="https://img.shields.io/:license-Apache2-blue.svg" alt="Apache 2" />
+	</a>
+	<br />
+	<a target="_blank" href='https://gitee.com/iohao/iogame'>
+		<img src='https://gitee.com/iohao/iogame/badge/star.svg' alt='gitee star'/>
+	</a>
+	<a target="_blank" href='https://github.com/iohao/iogame'>
+		<img src="https://img.shields.io/github/stars/iohao/iogame.svg?logo=github" alt="github star"/>
+	</a>
+</p>
+<hr />
+
+<br/>
 
 **过去、现在、将来都不会有商业版本，所有功能全部开源！**
 
@@ -12,13 +42,14 @@
 
 <br>
 
-gitee：  [ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame)	
+**gitee**：  [ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame)	
 
-github:   [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame)	
+**github**:   [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame)	
 
-在线文档:：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game/wwvg7z)
+在线文档:：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game)
 
 > **推荐大家看在线文档，排版好一些，README 上看有点乱！**
+
 
 
 ## 愿景
@@ -86,8 +117,9 @@ Bolt 名字取自迪士尼动画-闪电狗，是一个基于 Netty 最佳实践�
 ![img](https://oscimg.oschina.net/oscnet/up-2a383c8fd7b13161b4e5bf210bdf9980771.png)
 
 <p align="center" style="color:red">
-通过 ioGame 你可以很容易的搭建出一个集群、分步式的网络游戏服务器！
+通过 ioGame 你可以很容易的搭建出一个集群无中心节点、分步式的网络游戏服务器！
 </p>
+
 
 
 无锁化设计、异步化与事件驱动的架构设计、集群无中心节点、自带负载均衡、分布式支持、可动态增减机器、避免类爆炸的设计；
@@ -124,6 +156,142 @@ broker （游戏网关）可以**集群**的方式部署，集群无中心节点
 
 
 
+## ioGame 支持的通讯方式
+![img](https://oscimg.oschina.net/oscnet/up-7cc466fa3c1f88b6e7fcff7120b82e27ee7.png)
+
+ioGame 支持 3 种类型的通讯方式，分别是单次请求处理、推送、逻辑服间的相互通信；下面分别对这 3 种类型的通讯方式相关的应用场景举几个例子。
+
+<details>
+<summary>3 种类型的通讯方式的详细内容--点我展开</summary>
+
+**1.单次请求处理**
+
+**1.1 请求、无响应**
+
+当请求端发起请求后，逻辑服不会发送任何响应给请求端。可以用在在网络通讯中，存在着不需要接收方回执确认的调用模型，如数据采集的场景: 打点采集、日志传输、metrics上报等。  
+
+
+
+在写 [action](https://www.yuque.com/iohao/game/sqcevl) 时，将方法返回值声名为 void 就表示处理 请求、无响应的。  
+
+
+
+<br>
+
+**1.2 请求、响应**
+
+请求、响应是在游戏开发中常见的通讯模式，也就是通讯的一方发出请求，而远程通讯的对方做出响应，也就是常说的请求/响应模式。  
+
+
+
+比如：装备的升级、人物的升级、玩家的移动、抽奖、游戏前端到某一个场景时需要从游戏服务端获取一些对应的场景配置等；  
+
+
+
+在写 [action](https://www.yuque.com/iohao/game/sqcevl) 时，方法有返回值的就表示处理 请求、响应的，框架会将这个返回值给到请求端。  
+
+
+
+<br>
+
+**2.推送**
+
+**2.1 指定单个或多个用户广播（推送）**
+
+向一个或多个指定的用户（玩家）主动发送一些数据。比如：
+
+- 给指定的在线玩家发送一些奖励。
+- 给在同一个房间内的玩家广播一些数据，如某一个玩家射击子弹，把这子弹的数据广播给房间内的其他玩家。如几个玩家在同一个房间内打牌，某个玩家出牌后，把这张牌的数据广播给房间内的其他玩家。  
+
+
+
+<br>
+
+**2.2 全服广播（推送）**
+
+给全服的所有在线玩家广播消息，如广播公告、即将停服维护等。
+
+详细示例可参考：[广播示例](https://www.yuque.com/iohao/game/qv4qfo)
+
+
+
+<br>
+
+**3.逻辑服间的相互通信**
+
+**3.1 单个逻辑服与单个逻辑服通信请求 - 有返回值（可跨进程）**
+
+逻辑服与逻辑服之间的相互请求通信，有返回值
+
+
+
+比如：我们有两个游戏逻辑服，分别是：a.天气预报逻辑服、b.战斗逻辑服。现在我们设想一个回合制游戏的战斗场景，需要配合天气，根据天气来增强或者减弱某个英雄的能力。那么在战斗开始前，战斗逻辑服只需要向游戏网关发起一个获取当前天气的请求，就可以得到当前的天气信息了，在根据当前的天气数据来增强或减弱该英雄的能力。
+
+
+
+又比如：a.大厅逻辑服、b.奖励发放逻辑服。大厅记录着一些数据（房间总数），奖励发放逻辑服根据当前的房间数量，来生成不同奖品，随机发放给在线用户。
+
+详细示例可参考：[逻辑服与逻辑服之间的交互示例](https://www.yuque.com/iohao/game/anguu6)
+
+
+
+<br>
+
+**3.2 单个逻辑服与单个逻辑服通信请求 - 无返回值（可跨进程）**
+
+逻辑服与逻辑服之间的相互请求通信，无返回值
+
+
+
+比如：我们有两个游戏逻辑服，分别是：a.匹配逻辑服、b.房间逻辑服。
+
+
+
+业务场景如下，多个玩家在开始游戏前需要匹配。这里假设有两个玩家，当匹配完成后，给这两个玩家返回所匹配到的房间信息。
+
+
+
+具体实现如下，两个玩家分别向匹配逻辑服发送匹配请求，匹配逻辑服收到玩家的请求后进行逻辑处理，并成功的把这两个玩家匹配到一起，此时我们把两个匹配到一起的玩家先称为匹配结果。匹配逻辑服只负责匹配相关的算法逻辑，所以在匹配逻辑服中，我们可以把匹配结果给到房间逻辑服，因为与匹配相关的工作已经完成了。
+
+
+
+在匹配逻辑服中，我们可以向房间逻辑服发起一个（单个逻辑服与单个逻辑服通信请求 - 无返回值）的请求，当房间逻辑服拿到匹配结果，根据匹配结果来创建房间。房间创建完成后把结果用推送（广播）给这两名玩家。
+
+为什么要用无返回值的通信请求呢，因为匹配逻辑服并不关心房间的创建。
+
+详细说明可参考：[逻辑服与逻辑服之间的交互-无返回值](https://www.yuque.com/iohao/game/anguu6#cZfdx)
+
+
+
+<br>
+
+**3.3 单个逻辑服与同类型多个逻辑服通信请求（可跨进程）**
+
+如： 【象棋逻辑服】有 3 台，分别是：《象棋逻辑服-1》、《象棋逻辑服-2》、《象棋逻辑服-3》，这些逻辑服可以在不同有进程中。
+
+
+
+我们可以在大厅逻辑服中向【同类型】的多个游戏逻辑服请求，意思是大厅发起一个向这 3 台象棋逻辑服的请求，框架会收集这 3 个结果集（假设结果是：当前服务器房间数）。
+
+
+
+当大厅得到这个结果集，可以统计房间的总数，又或者说根据这些信息做一些其他的业务逻辑；这里只是举个例子。实际当中可以发挥大伙的想象力。
+
+
+
+详细示例可参考：[请求同类型多个逻辑服通信结果](https://www.yuque.com/iohao/game/rf9rb9)
+
+其中配合[动态绑定逻辑服节点；可以实现LOL、王者荣耀匹配后动态分配房间](https://www.yuque.com/iohao/game/idl1wm)
+
+
+
+<br>
+
+**最后，发挥你的想象力，把这 3 类通讯方式用活，可以满足很多业务。**
+
+</details>
+
+
 ## 快速入门
 
 ### 业务交互
@@ -153,17 +321,13 @@ broker （游戏网关）可以**集群**的方式部署，集群无中心节点
 
 
 
-### 游戏服务器
-
-游戏服务器处理实际用户或其他的业务。
-
-
-
 ### 快速入门代码示例
 
 这里主要介绍游戏服务器相关的，下面这个示例介绍了服务器编程可以变得如此简单。
 
 
+
+<br>
 
 #### Proto 协议文件定义
 
@@ -183,6 +347,8 @@ public class HelloReq {
 ```
 
 
+
+<br>
 
 #### Action
 
@@ -216,11 +382,15 @@ public class DemoAction {
 
 
 
+<br>
+
 **问：我可以开始游戏服务器的编程了吗？**
 
 是的，你已经可以开始游戏服务器的编程了。
 
 
+
+<br>
 
 #### 访问示例（控制台）
 
@@ -267,6 +437,8 @@ public class DemoAction {
 
 
 
+<br>
+
 ## 适合人群？
 
 1. 长期从事 web 内部系统开发人员， 想了解游戏的
@@ -281,6 +453,8 @@ public class DemoAction {
 推荐实际编程经验一年以上的人员
 
 
+
+<br>
 
 ## 业务框架内置功能
 
@@ -327,6 +501,8 @@ public class DemoAction {
 
 
 
+<br>
+
 
 ## ioGame 关注的多个方面
 
@@ -351,17 +527,23 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 
 
+<br>
+
 **1. 网络传输的性能**
 
 网络传输方面的性能上限取决于网络通信框架 [sofa-bolt](https://www.sofastack.tech/projects/sofa-bolt/overview/) 。
 
 
 
+<br>
+
 **2.调用开发者编写的业务代码（action）**
 
 业务框架对于每个 action （既业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
 
 
+
+<br>
 
 ### 对接方面
 
@@ -374,6 +556,8 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 
 如果没有游戏文档生成，那么你将要抽出一些时间来维护文档的工作，而且当团队人数多了，就会很乱（文档不同步、不是最新的、或是忘记更新等等情况就会出现）。
+
+
 
 <details>
 <summary markdown="span">框架生成的对接文档预览--点我展开</summary>
@@ -409,12 +593,15 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 
 
+<br>
+
 
 ### 通讯方式方面
 
 框架提供了 3 类通讯方式：**单次请求处理、推送、逻辑服间的相互通信**。**发挥你的想象力，把这 3 类通讯方式用活，可以满足很多业务。**
 
-
+<details>
+<summary>通讯方式方面--点我展开</summary>
 
 **1.单次请求处理**
 
@@ -422,6 +609,8 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 - 请求、响应
 
 
+
+<br>
 
 **2.推送**
 
@@ -431,6 +620,8 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 参考：[广播（推送）相关示例与文档](https://www.yuque.com/iohao/game/qv4qfo)
 
 
+
+<br>
 
 **3.逻辑服间的相互通信**
 
@@ -445,14 +636,19 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 其中配合[动态绑定逻辑服节点；可以实现LOL、王者荣耀匹配后动态分配房间](https://www.yuque.com/iohao/game/idl1wm)
 
 [3类通讯方式文档](https://www.yuque.com/iohao/game/nelwuz)
+</details>
 
 
+
+<br>
 
 ### 开发方面
 
 ioGame 非常注重开发者的开发体验，学习零成本。在开发方面又包括这几个小方面：**开发体验方面、参数方面、参数的数据验证方面、异常机制方面、调试方面**。
 
 
+
+<br>
 
 #### **开发体验方面**
 
@@ -498,11 +694,15 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 
 
 
+<br>
+
 #### 参数
 
 框架对 [jprotobuf通信协议的友好支持](https://www.yuque.com/iohao/game/mbr9in) ，通信协议这里指游戏端与游戏服务端之间的业务数据传递。例如：登录业务的登录请求（游戏端请求游戏服务端）与登录响应（游戏服务端返回数据给游戏端）。jprotobuf 是对 google protobuf 的简化使用，性能同等。
 
 
+
+<br>
 
 #### 参数的数据验证方面（方法参数的验证）
 
@@ -511,6 +711,8 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 参考：[开启JSR303+验证规范](https://www.yuque.com/iohao/game/ghng6g)
 
 
+
+<br>
 
 #### 异常机制方面
 
@@ -523,6 +725,8 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 参考：[异常机制](https://www.yuque.com/iohao/game/avlo99)
 
 
+
+<br>
 
 #### 调试方面 （方法的调用）
 
@@ -538,6 +742,8 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 
 
 
+<br>
+
 ### 小结-业务框架的关注点
 
 开发方面：1.开发体验、2.参数 、3.[参数的数据验证方面（方法参数的验证）](https://www.yuque.com/iohao/game/ghng6g) 、4.[异常机制](https://www.yuque.com/iohao/game/avlo99) 、5.[调试日志（业务日志）](https://www.yuque.com/iohao/game/pf3sx0) 
@@ -551,6 +757,8 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 这几个方面是我们开发中最常用的，也是用得最为频繁的。如果满足不了上面最为基础的几个方面，谈不上是一个好用的框架。
 
 
+
+<br>
 
 ## 源码目录介绍
 
@@ -598,11 +806,15 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 </details>
 
 
+<br>
+
 ## 快速从零编写服务器完整示例
 
 如果觉得 ioGame 适合你，可以看一下 [快速从零编写服务器完整示例](https://www.yuque.com/iohao/game/zm6qg2) 。在这个示例中，你可以用很少的代码实现一个完整的、可运行的、高性能的、稳定的服务器。
 
 
+
+<br>
 
 ## 坦克游戏示例
 
@@ -617,6 +829,8 @@ ioGame 源码内提供了一个基于 [FXGL](https://www.oschina.net/p/fxgl) 游
 **如果您觉得还不错，帮忙给个 start 关注**
 
 
+
+<br>
 
 ## 参考
 
