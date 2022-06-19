@@ -53,10 +53,8 @@ public class BeeAction {
 
     @ActionMethod(ExampleActionCont.BeeActionCont.test_void)
     public void thatVoid(BeeApple beeApple) {
-        log.debug("beeApple: {}", beeApple);
         // 响应给客户端的数据 string 类型. 框架可根据返回参数类型将返回结果装到响应体中
         BeeApple that = new BeeApple();
         that.setContent(beeApple.content + "，I'm thatVoid");
-        log.info("that : {}", that);
     }
 }

@@ -41,7 +41,6 @@ public class TestDataKit {
     public BarSkeletonBuilder createBuilder() {
         // 尽量做到所有操作是可插拔的. 详细配置 see BarSkeletonBuilder.build
         BarSkeletonBuilder builder = BarSkeleton.newBuilder();
-        builder.getSetting().setPrintActionShort(true);
 
         builder.addInOut(new DebugInOut());
 
@@ -51,10 +50,7 @@ public class TestDataKit {
 //                .addActionController(BirdAction.class)
 //        ;
 
-        Predicate<Class<?>> predicateFilter = (clazz) -> {
-            ActionController annotation = clazz.getAnnotation(ActionController.class);
-            return annotation != null;
-        };
+        Predicate<Class<?>> predicateFilter = (clazz) -> clazz.getAnnotation(ActionController.class) != null;
 
         String packagePath = BeeAction.class.getPackageName();
 

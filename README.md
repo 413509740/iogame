@@ -5,6 +5,8 @@
 	<strong>国内首个基于蚂蚁金服 SOFABolt 的 java 网络游戏服务器框架；无锁异步化、事件驱动的架构设计；</strong>
 	<br>
 	<strong>通过 ioGame 可以很容易的搭建出一个集群无中心节点、分步式的网络游戏服务器！</strong>
+	<br>
+	<strong>业务框架平均每秒可以执行 1152 万次业务逻辑</strong>
 </p>
 <p align="center">
 	<a href="https://www.yuque.com/iohao/game">https://www.yuque.com/iohao/game</a>
@@ -109,6 +111,32 @@ Bolt 名字取自迪士尼动画-闪电狗，是一个基于 Netty 最佳实践�
 如果说  [sofa-bolt](https://www.sofastack.tech/projects/sofa-bolt/overview/) 是为了让 Java 程序员能将更多的精力放在基于网络通信的业务逻辑实现上。而业务框架正是解决业务逻辑如何方便实现这一问题上。业务框架是游戏框架的一部份，职责是简化程序员的业务逻辑实现，业务框架使程序员能够快速的开始编写游戏业务。
 
 
+
+**业务框架平均每秒可以执行 1152 万次业务逻辑。**
+
+<details>
+<summary>业务框架性能报告JHM--点我展开</summary>
+
+```text
+Iteration   1: 11439916.980 ops/s
+Iteration   2: 11521457.838 ops/s
+Iteration   3: 11560843.725 ops/s
+Iteration   4: 11535277.025 ops/s
+Iteration   5: 11564838.596 ops/s
+Result "com.iohao.game.example.benchmark.BarSkeletonBenchmark.handle1":
+  11524466.833 ±(99.9%) 194712.309 ops/s [Average]
+  (min, avg, max) = (11439916.980, 11524466.833, 11564838.596), stdev = 50566.168
+  CI (99.9%): [11329754.524, 11719179.141] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:20
+----------------------------------------
+业务框架平均每秒执行 1152 万次。
+```
+----------------------------------------
+业务框架对于每个 action （既业务的处理类） 都是通过 asm 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
+
+
+</details>
 
 ------
 
@@ -541,6 +569,16 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 业务框架对于每个 action （既业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
 
+<br>
+
+**业务框架平均每秒可以执行 1152 万次业务逻辑。**
+
+<details>
+<summary>业务框架性能报告JHM--点我展开</summary>
+
+![img](https://oscimg.oschina.net/oscnet/up-302962c5d45b4eab1cbc083ca1164e5d890.png)
+
+</details>
 
 
 <br>

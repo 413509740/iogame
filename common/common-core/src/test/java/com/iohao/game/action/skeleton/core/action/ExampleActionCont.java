@@ -30,5 +30,6 @@ public interface ExampleActionCont {
         int hello = 0;
         int name = 1;
         int test_void = 3;
+        int test_benchmark_void = 4;
     }
 }

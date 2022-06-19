@@ -99,6 +99,6 @@ public class BarSkeletonTest {
         // 业务框架处理用户请求
         barSkeleton.handle(flowContext);
         System.out.println();
-
     }
+
 }
