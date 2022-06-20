@@ -115,7 +115,7 @@ Bolt 名字取自迪士尼动画-闪电狗，是一个基于 Netty 最佳实践�
 **业务框架平均每秒可以执行 1152 万次业务逻辑。**
 
 <details>
-<summary>业务框架性能报告JHM--点我展开</summary>
+<summary>业务框架性能报告JMH--点我展开</summary>
 
 ```text
 Iteration   1: 11439916.980 ops/s
@@ -571,10 +571,10 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 <br>
 
-**业务框架平均每秒可以执行 1152 万次业务逻辑。**
+业务框架平均每秒可以执行 1152 万次业务逻辑。
 
 <details>
-<summary>业务框架性能报告JHM--点我展开</summary>
+<summary>业务框架性能报告JMH--点我展开</summary>
 
 ![img](https://oscimg.oschina.net/oscnet/up-302962c5d45b4eab1cbc083ca1164e5d890.png)
 
