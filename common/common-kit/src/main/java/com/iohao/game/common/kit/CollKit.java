@@ -63,9 +63,12 @@ public class CollKit {
                 );
     }
 
+    public boolean notEmpty(Collection<?> collection) {
+        return !isEmpty(collection);
+    }
+
     public boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
-
 
 }

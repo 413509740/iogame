@@ -6,11 +6,16 @@
 	<br>
 	<strong>通过 ioGame 可以很容易的搭建出一个集群无中心节点、分步式的网络游戏服务器！</strong>
 	<br>
+	<strong>轻量级、更节约、更简单、开箱即用、无配置文件、启动快、超高性能</strong>
+	<br>
 	<strong>业务框架平均每秒可以执行 1152 万次业务逻辑</strong>
+	<br>
+	<strong>对webMVC开发者友好</strong>
 </p>
 <p align="center">
 	<a href="https://www.yuque.com/iohao/game">https://www.yuque.com/iohao/game</a>
 </p>
+
 
 <p align="center">
 	<a target="_blank" href="https://www.oracle.com/java/technologies/downloads/#java17">
@@ -32,27 +37,31 @@
 
 <br/>
 
-**过去、现在、将来都不会有商业版本，所有功能全部开源！**
+过去、现在、将来都不会有商业版本，所有功能全部开源！
 
-**只做真的完全式开源，拒绝虚假开源，售卖商业版，不搞短暂维护！**
+只做真的完全式开源，拒绝虚假开源，售卖商业版，不搞短暂维护！
 
-**承诺项目的维护周期是十年起步， 2022-03-01起，至少十年维护期！**
+承诺项目的维护周期是十年起步， 2022-03-01起，至少十年维护期！
 
-**提供高质量的使用文档！**
+提供高质量的使用文档！
 
-**如果您觉得还不错，帮忙给个 start 关注**
+如果您觉得还不错，帮忙给个 start 关注
 
 <br>
 
-**gitee**：  [ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame)	
+**gitee**：[ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame)	
 
-**github**:   [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame)	
+**github**： [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame)	
 
-在线文档:：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game)
+**在线文档**：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game)
 
 > **推荐大家看在线文档，排版好一些，README 上看有点乱！**
 
+<br>
 
+---
+
+<br>
 
 ## 愿景
 
@@ -66,11 +75,11 @@ ioGame 是一个由 **java** 语言编写的**网络游戏服务器框架**。�
 
 
 
-ioGame 是轻量级的网络游戏服务器框架，在使用 ioGame 时，无需安装其他服务如： Nginx、Redis、MQ、Mysql、ZooKeeper、Protobuf协议编译工具 ... ...等。简单点说，就是无需安装其他产品就能使用；这意味着在使用上简单了，在部署上也为企业节约了成本。
+ioGame 是轻量级的网络游戏服务器框架，在使用 ioGame 时，无需安装其他服务，如： Nginx、Redis、MQ、Mysql、ZooKeeper、Protobuf协议编译工具 ... ...等。简单点说，就是无需安装其他产品就能使用；这意味着在使用上简单了，在部署上也为企业节约了成本。
 
 
 
-通过 ioGame 你可以很容易的搭建出一个高性能、集群无中心节点、分步式、自带负载均衡、避免类爆炸设计的网络游戏服务器。游戏框架借助于蚂蚁金服 [sofa-bolt](https://www.sofastack.tech/projects/sofa-bolt/overview/) 通信框架来提供通信方面的稳定与高性能。
+通过 ioGame 你可以很容易的搭建出一个稳定、高性能、集群无中心节点、分步式、自带负载均衡、跨进程通信、避免类爆炸设计的网络游戏服务器。游戏框架借助于蚂蚁金服 [sofa-bolt](https://www.sofastack.tech/projects/sofa-bolt/overview/) 通信框架来提供通信方面的稳定与高性能。
 
 
 
@@ -78,7 +87,11 @@ ioGame 是轻量级的网络游戏服务器框架，在使用 ioGame 时，无�
 
 
 
-即使之前没有游戏编程的经验，也能参与到游戏编程中。如果你之前具备一些游戏开发或者 web MVC 相关的知识，则会更容易上手游戏服务器的开发。
+即使之前没有游戏编程的经验，也能参与到游戏编程中。如果你之前具备一些游戏开发或者 webMVC 相关的知识，则会更容易上手游戏服务器的开发。
+
+
+
+ioGame 可以很方便的与 spring 集成（5 行代码）。在部署上支持多服单进程的方式部署（类似单体应用）、也支持多服多进程多机器的方式部署。在部署方式上可以随意切换，而不需要更改代码；日常中按照单体思维开发，在生产上可以使用多进程的方式部署；当然，也可以使用单进程的方式部署。
 
 
 
@@ -112,7 +125,11 @@ Bolt 名字取自迪士尼动画-闪电狗，是一个基于 Netty 最佳实践�
 
 
 
-**业务框架平均每秒可以执行 1152 万次业务逻辑。**
+业务框架对于每个 action （既业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
+
+
+
+业务框架平均每秒可以执行 1152 万次业务逻辑。
 
 <details>
 <summary>业务框架性能报告JMH--点我展开</summary>
@@ -154,7 +171,7 @@ Result "com.iohao.game.example.benchmark.BarSkeletonBenchmark.handle1":
 
 
 
-ioGame 可以很方便的与 spring 集成。在部署上支持多服单进程的方式部署、也支持多服多进程多机器的方式部署。图中的每个对外服、每个游戏逻辑服、每个 broker （游戏网关）都可以在单独的进程中部署，逻辑服之间可以跨进程通信（对外服也是逻辑服的一种）。
+图中的每个对外服、每个游戏逻辑服、每个 broker （游戏网关）都可以在单独的进程中部署，逻辑服之间可以跨进程通信（对外服也是逻辑服的一种）。
 
 
 
@@ -553,15 +570,11 @@ public class DemoAction {
 
 ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我们只需要关注使用最频繁的两个点，1. 网络传输的性能，2.调用开发者编写的业务代码（action）。
 
-
-
 <br>
 
 **1. 网络传输的性能**
 
 网络传输方面的性能上限取决于网络通信框架 [sofa-bolt](https://www.sofastack.tech/projects/sofa-bolt/overview/) 。
-
-
 
 <br>
 
@@ -576,7 +589,7 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 <details>
 <summary>业务框架性能报告JMH--点我展开</summary>
 
-![img](https://oscimg.oschina.net/oscnet/up-302962c5d45b4eab1cbc083ca1164e5d890.png)
+![img](https://oscimg.oschina.net/oscnet/up-ad008557d2ed7f1f0ba6aeab41780446866.png)
 
 </details>
 

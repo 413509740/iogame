@@ -40,7 +40,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的方法，并且不需要返回值
      * <pre>
      *     相关文档
-     *     https://www.yuque.com/iohao/game/anguu6
+     *     https://www.yuque.com/iohao/game/anguu6#cZfdx
      * </pre>
      *
      * @param cmdInfo cmdInfo
@@ -55,7 +55,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的方法，并且不需要返回值
      * <pre>
      *     相关文档
-     *     https://www.yuque.com/iohao/game/anguu6
+     *     https://www.yuque.com/iohao/game/anguu6#cZfdx
      * </pre>
      *
      * @param cmdInfo cmdInfo
@@ -68,7 +68,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的方法，并且不需要返回值
      * <pre>
      *     相关文档
-     *     https://www.yuque.com/iohao/game/anguu6
+     *     https://www.yuque.com/iohao/game/anguu6#cZfdx
      * </pre>
      *
      * @param requestMessage requestMessage
