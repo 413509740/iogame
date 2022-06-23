@@ -146,12 +146,10 @@ Result "com.iohao.game.example.benchmark.BarSkeletonBenchmark.handle1":
   CI (99.9%): [11329754.524, 11719179.141] (assumes normal distribution)
 
 # Run complete. Total time: 00:01:20
-----------------------------------------
-业务框架平均每秒执行 1152 万次。
+
 ```
 ----------------------------------------
-业务框架对于每个 action （既业务的处理类） 都是通过 asm 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
-
+上面是在单线程中的测试数据，业务框架平均每秒执行 1152 万次。
 
 </details>
 
