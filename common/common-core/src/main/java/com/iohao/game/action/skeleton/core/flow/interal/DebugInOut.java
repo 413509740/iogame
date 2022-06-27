@@ -97,7 +97,7 @@ public final class DebugInOut implements ActionMethodInOut {
     public void fuckOut(final FlowContext flowContext) {
 
         long currentTimeMillis = System.currentTimeMillis();
-        Long time = flowContext.option(timeKey, currentTimeMillis);
+        Long time = flowContext.option(timeKey);
 
         long ms = currentTimeMillis - time;
 

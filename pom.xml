@@ -42,47 +42,15 @@
         <!-- 游戏部件 : 进一步减少开发实践过程中的工作量 -->
         <module>widget-game/light-game-room</module>
 
-        <!-- 示例  -->
-        <module>example/example-parent</module>
-        <module>example/example-run-one</module>
-        <module>example/example-for-spring</module>
-        <module>example/example-interaction</module>
-        <module>example/example-interaction-same</module>
-        <module>example/example-endpoint</module>
-        <module>example/example-for-tcp-socket</module>
-        <module>example/example-redisson-lock-spring-boot-starter</module>
-        <module>example/example-redisson-lock</module>
-        <module>example/example-cluster-run-one</module>
-        <module>example/example-broadcast</module>
-        <module>example/example-hook</module>
-        <module>example/example-ext-logic-server</module>
-
-
-        <!-- 实践案例 - 通用部份  -->
-        <module>example-game-collect/game-common-proto</module>
-        <module>example-game-collect/game-common</module>
-        <!-- 对外服 -->
-        <module>example-game-collect/game-external</module>
-        <!-- 逻辑服 - 大厅 -->
-        <module>example-game-collect/game-logic-hall</module>
-        <!-- 逻辑服 - 坦克 -->
-        <module>example-game-collect/game-logic-tank</module>
-        <!-- 启动 对外服、网关、逻辑服 -->
-        <module>example-game-collect/game-one</module>
-        <!-- java 坦克游戏 fxgl -->
-        <module>example-game-collect/fxgl-tank</module>
 
         <!-- 扩展服 - 监控 -->
         <module>broker-starter-ext/broker-starter-monitor-logic</module>
         <module>broker-starter-ext/broker-client-ext-monitor</module>
-        <module>example/example-wrapper-base-type</module>
 
     </modules>
 
     <!--统一管理版本 的一个父 pom-->
     <properties>
-        <!-- 项目版本 -->
-        <project-revision.version>1.3.0</project-revision.version>
         <!-- jdk 版本 -->
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>

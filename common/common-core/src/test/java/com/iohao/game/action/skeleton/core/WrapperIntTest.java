@@ -68,22 +68,22 @@ public class WrapperIntTest {
 
     @Test
     public void intPb() {
-        FlowContext flowContext = null;
-//        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2Void);
-//        // 业务框架处理用户请求
-//        barSkeleton.handle(flowContext);
-//
-//        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2Int);
-//        // 业务框架处理用户请求
-//        barSkeleton.handle(flowContext);
-//
-//        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2IntPb);
-//        // 业务框架处理用户请求
-//        barSkeleton.handle(flowContext);
-//
-//        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2IntList);
-//        // 业务框架处理用户请求
-//        barSkeleton.handle(flowContext);
+        FlowContext flowContext ;
+        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2Void);
+        // 业务框架处理用户请求
+        barSkeleton.handle(flowContext);
+
+        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2Int);
+        // 业务框架处理用户请求
+        barSkeleton.handle(flowContext);
+
+        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2IntPb);
+        // 业务框架处理用户请求
+        barSkeleton.handle(flowContext);
+
+        flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2IntList);
+        // 业务框架处理用户请求
+        barSkeleton.handle(flowContext);
 
         flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intListVoid);
         IntListPb intListPb = new IntListPb();
@@ -101,7 +101,7 @@ public class WrapperIntTest {
 
     @Test
     public void intValue() {
-        FlowContext flowContext = null;
+        FlowContext flowContext ;
         flowContext = this.createIntPbFlowContext(WrapperIntActionCont.int2Void);
         // 业务框架处理用户请求
         barSkeleton.handle(flowContext);
@@ -121,7 +121,7 @@ public class WrapperIntTest {
 
     @Test
     public void integerValue() {
-        FlowContext flowContext = null;
+        FlowContext flowContext ;
         flowContext = this.createIntPbFlowContext(WrapperIntActionCont.integer2Void);
         // 业务框架处理用户请求
         barSkeleton.handle(flowContext);

@@ -28,7 +28,6 @@ import org.junit.Test;
 @Slf4j
 public class ProtoJavaTest {
 
-    @Test
     public void name() {
 
         if (!SystemUtil.getOsInfo().isMac()) {

@@ -812,27 +812,6 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 ├── common
 │   ├── common-core (业务框架)
 │   └── common-kit (工具相关)
-├── example （示例）
-│   ├── example-broadcast （广播示例）
-│   ├── example-cluster-run-one （集群示例）
-│   ├── example-endpoint 示例目录 玩家动态绑定逻辑服节点
-│   ├── example-for-spring （spring集成示例）
-│   ├── example-for-tcp-socket （对外服使用tcp协议示例）
-│   ├── example-hook 示例目录 钩子相关(心跳，用户上线、下线)
-│   ├── example-interaction （逻辑服与逻辑服之间的交互，可跨进程通信）
-│   ├── example-interaction-same 示例目录 逻辑服间的相互通信；请求同类型多个逻辑服的结果集（可跨进程）
-│   ├── example-parent
-│   ├── example-redisson-lock （分步式锁）
-│   ├── example-redisson-lock-spring-boot-starter （分步式锁 for springBootStarter）
-│   └── example-run-one （快速启动示例）
-├── example-game-collect （实战示例、坦克）
-│   ├── fxgl-tank （游戏引擎-坦克游戏启动端）
-│   ├── game-common （一些通用的功能）
-│   ├── game-common-proto （示例 pb ）
-│   ├── game-external （对外服）
-│   ├── game-logic-hall （登录逻辑服）
-│   ├── game-logic-tank （坦克逻辑服）
-│   └── game-one （一键启动 游戏网关、游戏逻辑服（登录和坦克）、对外服）
 ├── net-bolt （网络通信框架相关的：对外服、游戏网关、游戏逻辑服）
 │   ├── bolt-broker-server （游戏网关）
 │   ├── bolt-client （逻辑服）
