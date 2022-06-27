@@ -57,4 +57,6 @@ public interface DemoModuleCmd {
     /** 逻辑服 示例 cmd 模块12 （钩子使用） */
     int demoModule_12_hook_cmd = 12;
     int demoModule_13_ext_cmd = 13;
+    /** 基础类型包装类 */
+    int demoModule_14_wrapper_cmd = 14;
 }

@@ -20,6 +20,8 @@ import com.esotericsoftware.reflectasm.ConstructorAccess;
 import com.esotericsoftware.reflectasm.MethodAccess;
 import com.iohao.game.action.skeleton.core.doc.ActionCommandDoc;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParser;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParsers;
 import com.iohao.game.common.kit.StrKit;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,6 +30,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
@@ -179,29 +182,125 @@ public final class ActionCommand {
     }
 
     /**
+     * action 方法中的参数与返回值信息
+     */
+    public interface MethodParamResultInfo {
+        /**
+         * 是否是 List 类型
+         *
+         * @return true 是 List 类型
+         */
+        default boolean isList() {
+            return false;
+        }
+
+        /**
+         * List 泛型的类型，也称为方法返回值类型
+         * <pre>
+         *     如果不是方法的返回值不是 List 类型，这个值会取自 paramClazz 成员属性
+         *     原计划想用 Collection ，这样可以兼容 Set 之类的；但似乎这样有一点争议，先暂支持 List 把
+         * </pre>
+         *
+         * @return List 泛型的类型
+         */
+        Class<?> getActualTypeArgumentClazz();
+    }
+
+    /**
      * 方法参数信息
      */
     @Getter
-    public static final class ParamInfo {
+    public static final class ParamInfo implements MethodParamResultInfo {
         /** 参数名 */
-        String name;
+        final String name;
         /** 参数下标 */
-        int index;
+        final int index;
         /** 参数类型 */
-        Class<?> paramClazz;
+        final Class<?> paramClazz;
+        /**
+         * List 泛型的类型，也称为方法返回值类型
+         * <pre>
+         *     如果不是方法的返回值不是 List 类型，这个值会取自 paramClazz 成员属性
+         *     原计划想用 Collection ，这样可以兼容 Set 之类的；但似乎这样有一点争议，先暂支持 List 把
+         * </pre>
+         */
+        @Getter
+        final Class<?> actualTypeArgumentClazz;
+        /** true 是 list 类型 */
+        final boolean list;
+
+        /**
+         * 实际的内置包装类型
+         * <pre>
+         *     常规的 java class 是指本身，如：
+         *     开发者自定义了一个 StudentPb，在 action 方法上参数声明为 xxx(StudentPb studentPb)
+         *     那么这个值就是 StudentPb
+         * </pre>
+         *
+         * <pre>
+         *     但由于框架现在内置了一些包装类型，如：
+         *     int --> IntPb
+         *     List&lt;Integer&gt; --> IntListPb
+         *
+         *     long --> LongPb
+         *     List&lt;Long&gt; --> LongListPb
+         *
+         *     所以当开发者在 action 方法上参数声明为基础类型时；
+         *     如声明为 int 那么这个值将会是 IntPb
+         *     如声明为 long 那么这个值将会是 LongPb
+         *
+         *     如声明为 List&lt;Integer&gt; 那么这个值将会是 IntListPb
+         *     包装类型相关的以此类推;
+         *
+         *     这么做的目的是为了生成文档时，不与前端产生争议，
+         *     如果提供给前端的文档显示 int ，或许前端同学会懵B，
+         *     当然如果提前与前端同学沟通好这些约定，也不是那么麻烦。
+         *     但实际上如果前端是新来接手项目的，碰见这种情况也会小懵，
+         *     所以为了避免这些小尬，框架在生成文档时，用基础类型的内置包装类型来表示。
+         * </pre>
+         */
+        final Class<?> actualClazz;
+
+        final boolean customMethodParser;
+
         /** true : 参数开启 JSR 303、JSR 349、JSR 380 验证规范 */
         boolean validator;
 
-        ParamInfo() {
+        ParamInfo(int index, Parameter p) {
+            // 方法的参数下标
+            this.index = index;
+            // 方法的参数名
+            this.name = p.getName();
+            // 方法的参数类型 class
+            this.paramClazz = p.getType();
+
+            /*
+             * 关于方法参数支持 list 这个特性也纠结了很久
+             * 因为这可能会给开发者造成一些困惑，现在方法支持 list 但只是为了支持基础类型相关的 list
+             * 开发者会不会把这个 list 的泛型类型用在协议上，如: List<StudentPb> 这种；
+             */
+
+            if (List.class.isAssignableFrom(this.paramClazz)) {
+                ParameterizedType genericReturnType = (ParameterizedType) p.getParameterizedType();
+                this.actualTypeArgumentClazz = (Class<?>) genericReturnType.getActualTypeArguments()[0];
+                this.list = true;
+            } else {
+                this.actualTypeArgumentClazz = this.paramClazz;
+                this.list = false;
+            }
+
+            MethodParser methodParser = MethodParsers.me().getMethodParser(this);
+            this.actualClazz = methodParser.getActualClazz(this);
+            this.customMethodParser = methodParser.isCustomMethodParser();
         }
 
         public String toStringShort() {
-            return paramClazz.getSimpleName() + " " + name;
+            return actualClazz.getSimpleName() + " " + name;
         }
 
         @Override
         public String toString() {
-            return paramClazz.getName() + " " + name;
+            return actualClazz.getName() + " " + name;
         }
 
         /**
@@ -217,13 +316,53 @@ public final class ActionCommand {
     /**
      * action 方法参数返回值信息
      */
-    @Getter
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static final class ActionMethodReturnInfo {
+    @Getter
+    public static final class ActionMethodReturnInfo implements MethodParamResultInfo {
         /** 返回类型 */
         final Class<?> returnTypeClazz;
-        /** list 泛型的类型 */
+        /**
+         * List 泛型的类型，也称为方法返回值类型
+         * <pre>
+         *     如果不是方法的返回值不是 List 类型，这个值会取自 returnTypeClazz 成员属性
+         *     原计划想用 Collection ，这样可以兼容 Set 之类的；但似乎这样有一点争议，先暂支持 List 把
+         * </pre>
+         */
         final Class<?> actualTypeArgumentClazz;
+        /** true 是 list 类型 */
+        final boolean list;
+        /**
+         * 实际的内置包装类型
+         * <pre>
+         *     常规的 java class 是指本身，如：
+         *     开发者自定义了一个 StudentPb，在 action 方法上参数声明为 xxx(StudentPb studentPb)
+         *     那么这个值就是 StudentPb
+         * </pre>
+         *
+         * <pre>
+         *     但由于框架现在内置了一些包装类型，如：
+         *     int --> IntPb
+         *     List&lt;Integer&gt; --> IntListPb
+         *
+         *     long --> LongPb
+         *     List&lt;Long&gt; --> LongListPb
+         *
+         *     所以当开发者在 action 方法上参数声明为基础类型时；
+         *     如声明为 int 那么这个值将会是 IntPb
+         *     如声明为 long 那么这个值将会是 LongPb
+         *
+         *     如声明为 List&lt;Integer&gt; 那么这个值将会是 IntListPb
+         *     包装类型相关的以此类推;
+         *
+         *     这么做的目的是为了生成文档时，不与前端产生争议，
+         *     如果提供给前端的文档显示 int ，或许前端同学会懵B，
+         *     当然如果提前与前端同学沟通好这些约定，也不是那么麻烦。
+         *     但实际上如果前端是新来接手项目的，碰见这种情况也会小懵，
+         *     所以为了避免这些小尬，框架在生成文档时，用基础类型的内置包装类型来表示。
+         * </pre>
+         */
+        final Class<?> actualClazz;
+        final boolean customMethodParser;
 
         private ActionMethodReturnInfo(ActionCommand.Builder builder) {
 
@@ -232,9 +371,15 @@ public final class ActionCommand {
             if (List.class.isAssignableFrom(returnTypeClazz)) {
                 ParameterizedType genericReturnType = (ParameterizedType) builder.actionMethod.getGenericReturnType();
                 this.actualTypeArgumentClazz = (Class<?>) genericReturnType.getActualTypeArguments()[0];
+                this.list = true;
             } else {
-                this.actualTypeArgumentClazz = null;
+                this.actualTypeArgumentClazz = returnTypeClazz;
+                this.list = false;
             }
+
+            MethodParser methodParser = MethodParsers.me().getMethodParser(this);
+            this.actualClazz = methodParser.getActualClazz(this);
+            this.customMethodParser = methodParser.isCustomMethodParser();
         }
 
         /**

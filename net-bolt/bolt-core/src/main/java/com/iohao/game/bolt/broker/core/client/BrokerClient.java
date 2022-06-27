@@ -30,6 +30,7 @@ import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
 import com.iohao.game.action.skeleton.protocol.collect.ResponseCollectMessage;
 import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
+import com.iohao.game.bolt.broker.core.common.processor.hook.ClientProcessorHooks;
 import com.iohao.game.bolt.broker.core.message.BrokerClientModuleMessage;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -99,6 +100,9 @@ public class BrokerClient implements BrokerClientContext {
     List<Supplier<UserProcessor<?>>> processorList;
 
     AtomicBoolean initAtomic = new AtomicBoolean(false);
+
+    /** bolt 业务处理器的钩子管理器 */
+    ClientProcessorHooks clientProcessorHooks;
 
     BrokerClient() {
         // 开启 bolt 重连, 通过系统属性来开和关，如果一个进程有多个 RpcClient，则同时生效

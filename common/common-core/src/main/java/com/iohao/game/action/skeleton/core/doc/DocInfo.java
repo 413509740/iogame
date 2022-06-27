@@ -17,6 +17,7 @@
 package com.iohao.game.action.skeleton.core.doc;
 
 import com.iohao.game.action.skeleton.core.ActionCommand;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParsers;
 import com.iohao.game.common.kit.StrKit;
 import lombok.Getter;
 
@@ -58,7 +59,7 @@ class DocInfo {
         paramMap.put("methodName", subBehavior.getActionMethodName());
         paramMap.put("methodComment", actionCommandDoc.getComment());
         paramMap.put("methodParam", "");
-        paramMap.put("returnTypeClazz", actionMethodReturnInfo.isVoid() ? "" : actionMethodReturnInfo.getReturnTypeClazz().getName());
+        paramMap.put("returnTypeClazz", getReturnTypeClazzName(actionMethodReturnInfo));
         paramMap.put("lineNumber", String.valueOf(actionCommandDoc.getLineNumber()));
 
 
@@ -68,8 +69,8 @@ class DocInfo {
                 continue;
             }
 
-            Class<?> paramClazz = paramInfo.getParamClazz();
-            paramMap.put("methodParam", paramClazz.getName());
+            String methodParam = this.getMethodParamName(paramInfo);
+            paramMap.put("methodParam", methodParam);
         }
 
         if (subBehavior.isThrowException()) {
@@ -132,5 +133,25 @@ class DocInfo {
         lineList.add(separator);
 
         return String.join(separator, lineList);
+    }
+
+    private String getMethodParamName(ActionCommand.ParamInfo paramInfo) {
+
+        Class<?> actualClazz = paramInfo.getActualClazz();
+        if (paramInfo.isCustomMethodParser() || MethodParsers.me().containsKey(actualClazz)) {
+            return actualClazz.getSimpleName();
+        }
+
+        return actualClazz.getName();
+    }
+
+    private String getReturnTypeClazzName(ActionCommand.ActionMethodReturnInfo actionMethodReturnInfo) {
+
+        Class<?> actualClazz = actionMethodReturnInfo.getActualClazz();
+        if (actionMethodReturnInfo.isCustomMethodParser() || MethodParsers.me().containsKey(actualClazz)) {
+            return actualClazz.getSimpleName();
+        }
+
+        return actualClazz.getName();
     }
 }

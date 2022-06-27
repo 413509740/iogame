@@ -60,7 +60,7 @@ public class IdleProcessSetting {
     /** true : 响应心跳给客户端 */
     boolean pong = true;
 
-    public void idleHandler(ChannelPipeline pipeline) {
+    public void idlePipeline(ChannelPipeline pipeline) {
 
         this.defaultSetting();
 

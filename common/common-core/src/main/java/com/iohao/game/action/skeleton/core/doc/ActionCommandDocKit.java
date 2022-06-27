@@ -92,12 +92,4 @@ public class ActionCommandDocKit {
 
     }
 
-    //    public ActionCommandDoc createActionCommandDoc(JavaClassDocInfo javaClassDocInfo, Method method) {
-//
-//        if (Objects.isNull(javaClassDocInfo)) {
-//            return new ActionCommandDoc();
-//        }
-//
-//        return javaClassDocInfo.createActionCommandDoc(method);
-//    }
 }

@@ -159,8 +159,7 @@ public final class ExternalServerBuilder {
     }
 
     private ExternalChannelInitializerCallback createExternalChannelInitializerCallback() {
-        this.option.setChannelHandlerProcessors(this.channelHandlerProcessors)
-        ;
+        this.option.setChannelHandlerProcessors(this.channelHandlerProcessors);
 
         // 自定义 - 编排业务，Channel 初始化的业务编排 (自定义业务编排)
         ExternalChannelInitializerCallback channelInitializerCallback = ExternalChannelInitializerCallbackFactory.me()

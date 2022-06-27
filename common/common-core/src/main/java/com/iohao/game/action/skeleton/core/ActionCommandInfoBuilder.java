@@ -24,6 +24,7 @@ import com.iohao.game.action.skeleton.annotation.ActionMethod;
 import com.iohao.game.action.skeleton.core.doc.ActionCommandDoc;
 import com.iohao.game.action.skeleton.core.doc.ActionCommandDocKit;
 import com.iohao.game.action.skeleton.core.doc.JavaClassDocInfo;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParsers;
 import com.iohao.game.action.skeleton.ext.spring.ActionFactoryBeanForSpring;
 import com.iohao.game.common.kit.StrKit;
 import lombok.AccessLevel;
@@ -136,6 +137,8 @@ public final class ActionCommandInfoBuilder {
                  */
                 var command = builder.build(this.setting);
 
+                checkParamResultInfo(command);
+
                 // 子路由映射
                 actionCommandRegion.add(command);
             });
@@ -174,25 +177,14 @@ public final class ActionCommandInfoBuilder {
             return;
         }
 
-        var len = parameters.length;
-        var paramInfos = new ActionCommand.ParamInfo[len];
+        var paramInfos = new ActionCommand.ParamInfo[parameters.length];
         builder.setParamInfos(paramInfos);
 
-        for (int i = 0; i < len; i++) {
-            // 构建参数信息
-            var paramInfo = new ActionCommand.ParamInfo();
-            paramInfos[i] = paramInfo;
-
+        for (int i = 0; i < parameters.length; i++) {
             // 方法的参数对象
-            Parameter p = parameters[i];
-
-            // 方法的参数下标
-            paramInfo.index = i;
-            // 方法的参数名
-            paramInfo.name = p.getName();
-            // 方法的参数类型 class
-            paramInfo.paramClazz = p.getType();
-
+            Parameter parameter = parameters[i];
+            // 构建参数信息
+            paramInfos[i] = new ActionCommand.ParamInfo(i, parameter);
         }
     }
 
@@ -232,5 +224,31 @@ public final class ActionCommandInfoBuilder {
                     // 必须实现注解的方法才处理
                     return Objects.nonNull(method.getAnnotation(ActionMethod.class));
                 });
+    }
+
+    private void checkParamResultInfo(ActionCommand actionCommand) {
+        ActionCommand.ParamInfo[] paramInfos = actionCommand.getParamInfos();
+        for (ActionCommand.ParamInfo paramInfo : paramInfos) {
+            checkMethodParamResultInfo(paramInfo);
+        }
+
+        ActionCommand.ActionMethodReturnInfo actionMethodReturnInfo = actionCommand.getActionMethodReturnInfo();
+        checkMethodParamResultInfo(actionMethodReturnInfo);
+    }
+
+    private void checkMethodParamResultInfo(ActionCommand.MethodParamResultInfo methodParamResultInfo) {
+
+        if (!methodParamResultInfo.isList()) {
+            return;
+        }
+
+        // 如果是 List 那么只支持基础类型
+        Class<?> actualTypeArgumentClazz = methodParamResultInfo.getActualTypeArgumentClazz();
+        boolean result = MethodParsers.me().containsKey(actualTypeArgumentClazz);
+
+        if (!result) {
+            Set<Class<?>> keySet = MethodParsers.me().keySet();
+            throw new RuntimeException("List 中的泛型类型只能是基础类型，如 " + keySet);
+        }
     }
 }

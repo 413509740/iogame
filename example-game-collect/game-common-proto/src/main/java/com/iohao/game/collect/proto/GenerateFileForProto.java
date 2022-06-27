@@ -35,7 +35,7 @@ public class GenerateFileForProto {
 
         String[] protoSourcePathArray = new String[]{
                 SystemUtil.getUserInfo().getCurrentDir()
-                , "game-collect"
+                , "example-game-collect"
                 , "game-common-proto"
                 , "src"
                 , "main"
@@ -48,7 +48,7 @@ public class GenerateFileForProto {
 
         String[] generateFolderArray = new String[]{
                 SystemUtil.getUserInfo().getCurrentDir()
-                , "game-collect"
+                , "example-game-collect"
                 , "game-common-proto"
                 , "target"
                 , "proto"

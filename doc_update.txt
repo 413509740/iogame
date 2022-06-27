@@ -1,3 +1,27 @@
+2022-06-27
+v1.4.0 (#I5C57I、#I5DTZN)
+
+新增业务参数自动装箱、拆箱基础类型
+    int : IntPb
+    List<Integer> : IntListPb
+
+    long : LongPb
+    List<Long> : LongListPb
+
+文档 https://www.yuque.com/iohao/game/ieimzn
+
+新增 ClientProcessorHooks
+    业务框架处理请求时，开发者可以自定义业务线程编排，
+    使得框架可以具备集成其他的并发框架的能力，可以无锁实现并发写的需求；
+    即逻辑服之间通信时，可以同时写，且不需要开发者显示的加锁。
+    建议配合 Disruptor 来使用，框架中提供了一个 Disruptor 的封装，领域事件 https://www.yuque.com/iohao/game/gmfy1k
+文档 https://www.yuque.com/iohao/game/eixd6x
+
+IdleProcessSetting
+    方法名变更 idleHandler --> idlePipeline，
+    因为与成员变量 ChannelHandler idleHandler 重名了，
+    重名理论上是方法重载的情况，因为方法参数不同；
+    但 lombok 似乎直接给覆盖了，导致成员变量 ChannelHandler idleHandler 不能设置
 
 2022-06-08
 v1.3.0 (#I5B8V4)
@@ -342,7 +366,7 @@ FlowContext 的动态属性由 AttrDynamic 改为 AttrOptionDynamic
     简化 jprotobuf 的编写方式
 
     不在需要 @Protobuf(description = "xxx") 来生成注释了
-    现在 jprotobuf 的类中，注释既文档
+    现在 jprotobuf 的类中，注释即文档
 
     可将多个 jprotobuf 类 合并生成为一个原生的 .proto 文件， 不使用 jprotobuf 提供的生成插件，
     因为 jprotobuf 生成的 .proto 文件太乱（会有重复的文件类），在阅读时也不方便
@@ -351,7 +375,7 @@ FlowContext 的动态属性由 AttrDynamic 改为 AttrOptionDynamic
 坦克 pb 更新
 
 2022-01-23
-业务框架支持文档生成, java代码既文档
+业务框架支持文档生成, java代码即文档
 业务框架日志可定位代码行数
     debug插件
     启动时

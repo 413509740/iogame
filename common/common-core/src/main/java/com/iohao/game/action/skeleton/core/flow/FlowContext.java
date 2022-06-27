@@ -16,12 +16,16 @@
  */
 package com.iohao.game.action.skeleton.core.flow;
 
-import com.iohao.game.action.skeleton.core.*;
+import com.iohao.game.action.skeleton.core.ActionCommand;
+import com.iohao.game.action.skeleton.core.BarMessageKit;
+import com.iohao.game.action.skeleton.core.BarSkeleton;
+import com.iohao.game.action.skeleton.core.CmdInfo;
 import com.iohao.game.action.skeleton.core.commumication.BrokerClientContext;
 import com.iohao.game.action.skeleton.core.commumication.InvokeModuleContext;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowAttr;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowOption;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowOptionDynamic;
+import com.iohao.game.action.skeleton.protocol.HeadMetadata;
 import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
 import com.iohao.game.action.skeleton.protocol.collect.ResponseCollectMessage;
@@ -30,8 +34,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
-import org.jctools.maps.NonBlockingHashMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -52,7 +56,7 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class FlowContext implements FlowOptionDynamic {
     /** 动态属性 */
-    final Map<FlowOption<?>, Object> options = new NonBlockingHashMap<>();
+    final Map<FlowOption<?>, Object> options = new HashMap<>();
 
     /** 业务框架 */
     BarSkeleton barSkeleton;
@@ -82,6 +86,11 @@ public final class FlowContext implements FlowOptionDynamic {
      */
     public CmdInfo getCmdInfo(int cmd, int subCmd) {
         return CmdInfo.getCmdInfo(cmd, subCmd);
+    }
+
+    public CmdInfo getCmdInfo() {
+        HeadMetadata headMetadata = this.request.getHeadMetadata();
+        return headMetadata.getCmdInfo();
     }
 
     /**

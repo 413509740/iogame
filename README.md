@@ -11,6 +11,8 @@
 	<strong>业务框架平均每秒可以执行 1152 万次业务逻辑</strong>
 	<br>
 	<strong>对webMVC开发者友好</strong>
+    <br>
+	<strong>代码即文档</strong>
 </p>
 <p align="center">
 	<a href="https://www.yuque.com/iohao/game">https://www.yuque.com/iohao/game</a>
@@ -125,7 +127,7 @@ Bolt 名字取自迪士尼动画-闪电狗，是一个基于 Netty 最佳实践�
 
 
 
-业务框架对于每个 action （既业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
+业务框架对于每个 action （即业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
 
 
 
@@ -409,7 +411,7 @@ public class DemoAction {
 }
 ```
 
-一个方法在业务框架中表示一个 Action（既一个业务动作）。
+一个方法在业务框架中表示一个 Action（即一个业务动作）。
 
 
 
@@ -499,12 +501,12 @@ public class DemoAction {
 
 <br>
 
-## 业务框架内置功能
+## 框架内置功能
 
 **内置多种可选模块，可按需选择，以方便应用开发：**
 
 <details>
-<summary>业务框架内置功能详细--点我展开</summary>
+<summary>游戏服务器框架内置功能详细--点我展开</summary>
 
 - [领域事件](https://www.yuque.com/iohao/game/gmfy1k) （[disruptor](https://www.yuque.com/iohao/game/gmfy1k) 实现类似Spring事件驱动模型 ApplicationEvent）
 - [任务延时器](https://www.yuque.com/iohao/game/niflk0) （将来某个时间可对任务进行执行、暂停、取消等操作，并不是类似 Quartz 的任务调度）
@@ -519,18 +521,11 @@ public class DemoAction {
 - [UserSessions](https://www.yuque.com/iohao/game/wg6lk7) （对所有用户UserSession的管理，统计在线用户等）
 - [UserSession](https://www.yuque.com/iohao/game/wg6lk7) (与 channel 是 1:1 的关系，可取到对应的 userId、channel 等信息。)
 - [登录相关](https://www.yuque.com/iohao/game/tywkqv)
+- [业务参数自动装箱、拆箱基础类型](https://www.yuque.com/iohao/game/ieimzn) （解决协议碎片）
 
 **集成相关：**
 
 - [spring 集成 ](https://www.yuque.com/iohao/game/evkgnz) （业务框架可以方便的与 spring 进行集成，5 行代码）
-
-**已完成的示例：**
-
-示例代码在源码 **example/** 目录下
-
-- [多服单进程示例](https://www.yuque.com/iohao/game/zm6qg2) - DemoApplication.java
-- [spring集成示例](https://www.yuque.com/iohao/game/evkgnz) - DemoSpringBootApplication
-- [多个逻辑服之间相互调用示例](https://www.yuque.com/iohao/game/anguu6) - DemoInteractionApplication
 
 **后续计划：**
 
@@ -578,7 +573,7 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 **2.调用开发者编写的业务代码（action）**
 
-业务框架对于每个 action （既业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
+业务框架对于每个 action （即业务的处理类） 都是通过 [asm](https://www.oschina.net/p/reflectasm) 与 Singleton、Flyweight 、Command 等设计模式结合，对 action 的获取上通过 array 来得到，是一种近原生的方式。
 
 <br>
 
@@ -600,7 +595,7 @@ ioGame游戏框架由 [网络通信框架] 和 [业务框架] 组成。所以我
 
 
 
-对于这方面 ioGame 也提供了一些辅助 [游戏文档生成](https://www.yuque.com/iohao/game/irth38) ，通过该辅助可以做到代码既文档，就是说当你的业务编写完成后，不需要额外的编写业务对接文档了，框架会自动的生成最新的文档。
+对于这方面 ioGame 也提供了一些辅助 [游戏文档生成](https://www.yuque.com/iohao/game/irth38) ，通过该辅助可以做到代码即文档，就是说当你的业务编写完成后，不需要额外的编写业务对接文档了，框架会自动的生成最新的文档。
 
 
 

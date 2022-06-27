@@ -28,7 +28,7 @@ public class BeeAction {
     /**
      * <pre>
      *     打招呼
-     *     实现注解 ActionMethod 告知框架这是一个对外开放的action (既一个方法就是一个对外的处理)
+     *     实现注解 ActionMethod 告知框架这是一个对外开放的action (即一个方法就是一个对外的处理)
      * </pre>
      *
      * @param beeApple a

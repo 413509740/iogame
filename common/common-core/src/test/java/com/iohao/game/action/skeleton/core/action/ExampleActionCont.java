@@ -32,4 +32,51 @@ public interface ExampleActionCont {
         int test_void = 3;
         int test_benchmark_void = 4;
     }
+
+    interface WrapperIntActionCont {
+        /**
+         * bee 模块 - 主 cmd
+         */
+        int cmd = 11;
+
+        int intPb2Void = 0;
+        int intPb2Int = 1;
+        int intPb2IntPb = 2;
+        int intPb2IntList = 3;
+        int intListVoid = 12;
+
+
+        int int2Void = 4;
+        int int2Int = 5;
+        int int2IntPb = 6;
+        int int2IntList = 7;
+
+        int integer2Void = 8;
+        int integer2Integer = 9;
+        int integer2IntPb = 10;
+        int integer2IntegerList = 11;
+
+    }
+
+    interface WrapperLongActionCont {
+        /**
+         * bee 模块 - 主 cmd
+         */
+        int cmd = 12;
+
+        int longPb2Void = 0;
+        int longPb2Long = 1;
+        int longPb2LongPb = 2;
+        int longPb2LongList = 3;
+
+        int long2Void = 4;
+        int long2Long = 5;
+        int long2LongPb = 6;
+        int long2LongList = 7;
+
+        int longer2Void = 8;
+        int longer2Long = 9;
+        int longer2LongPb = 10;
+        int longer2LongList = 11;
+    }
 }

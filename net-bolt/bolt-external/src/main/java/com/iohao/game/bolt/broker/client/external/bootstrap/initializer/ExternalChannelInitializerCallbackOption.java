@@ -61,7 +61,7 @@ public class ExternalChannelInitializerCallbackOption {
             return;
         }
 
-        idleProcessSetting.idleHandler(pipeline);
+        idleProcessSetting.idlePipeline(pipeline);
     }
 
     private void channelHandlerProcessors(ChannelPipeline pipeline) {

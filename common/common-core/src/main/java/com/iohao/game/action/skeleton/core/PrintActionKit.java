@@ -121,6 +121,7 @@ class PrintActionKit {
                     var infos = Arrays.stream(paramInfos)
                             .map(ActionCommand.ParamInfo::toStringShort)
                             .toArray();
+
                     paramInfoShort = ArrayUtil.join(infos, ", ");
 
                     paramInfo = ArrayUtil.join(paramInfos, ", ");
@@ -140,11 +141,11 @@ class PrintActionKit {
 
                 // 返回类型
                 ActionCommand.ActionMethodReturnInfo actionMethodReturnInfo = subBehavior.getActionMethodReturnInfo();
-                final Class<?> returnTypeClazz = actionMethodReturnInfo.getReturnTypeClazz();
+                final Class<?> returnTypeClazz = actionMethodReturnInfo.getActualClazz();
                 params.put("returnTypeClazz", returnTypeClazz.getName());
                 params.put("returnTypeClazzShort", returnTypeClazz.getSimpleName());
 
-                checkReturnType(returnTypeClazz);
+                checkReturnType(actionMethodReturnInfo.getReturnTypeClazz());
 
                 shortName(params, shortName);
 
@@ -161,7 +162,6 @@ class PrintActionKit {
                 String returnValueCell = Color.magenta.format("{returnTypeClazz}", params);
                 String throwCell = Color.red.format("{throw}", params);
 
-
                 params.put("routeCell", routeCell);
                 params.put("actionCell", actionCell);
                 params.put("actionNameCell", actionNameCell);
@@ -174,9 +174,9 @@ class PrintActionKit {
                 String lineTemplate = "{routeCell} {actionCell} {actionNameCell}.{methodNameCell}({paramInfoCell}) {throwCell} --- return {returnValueCell}  ~~~ see.({actionSimpleName}.java:{lineNumber})";
                 String text = StrKit.format(lineTemplate, params);
                 System.out.println(Ansi.ansi().eraseScreen().render(text));
-
             }
         }
+
         System.out.println();
     }
 
@@ -200,12 +200,11 @@ class PrintActionKit {
 //                    params.put("actualTypeArgumentClazzShort", actionMethodReturnInfo.getActualTypeArgumentClazz().getSimpleName());
 //                }
 
-        if (Collection.class.isAssignableFrom(returnTypeClazz) || Map.class.isAssignableFrom(returnTypeClazz)) {
+        if (Set.class.isAssignableFrom(returnTypeClazz) || Map.class.isAssignableFrom(returnTypeClazz)) {
             // 参数的不支持不写逻辑了，这里告诉一下就行了。看之后的需要在考虑是否支持吧
-            throw new RuntimeException("action 返回值和参数不支持 list、set、map 和 基础类型!");
+            throw new RuntimeException("action 返回值和参数不支持 set、map 和 基础类型!");
         }
     }
-
 
     private static class Color {
         String start;

@@ -18,10 +18,10 @@ package com.iohao.game.action.skeleton.core.flow.interal;
 
 import com.iohao.game.action.skeleton.core.ActionCommand;
 import com.iohao.game.action.skeleton.core.ValidatorKit;
-import com.iohao.game.action.skeleton.core.flow.codec.DataCodec;
 import com.iohao.game.action.skeleton.core.flow.ActionMethodParamParser;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowAttr;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParsers;
 
 import java.util.Objects;
 
@@ -51,7 +51,7 @@ public final class DefaultActionMethodParamParser implements ActionMethodParamPa
 
         for (int i = 0; i < len; i++) {
             ActionCommand.ParamInfo paramInfo = paramInfos[i];
-            Class<?> paramClazz = paramInfo.getParamClazz();
+            Class<?> paramClazz = paramInfo.getActualTypeArgumentClazz();
 
             if (FlowContext.class.equals(paramClazz)) {
                 // flow 上下文
@@ -66,9 +66,11 @@ public final class DefaultActionMethodParamParser implements ActionMethodParamPa
                 continue;
             }
 
+            var methodParser = MethodParsers.me().getMethodParser(paramInfo);
+
             // 把字节解析成 pb 对象
-            DataCodec codec = flowContext.option(FlowAttr.dataCodec);
-            params[i] = codec.decode(data, paramClazz);
+            params[i] = methodParser.parseParam(data, paramInfo);
+
             flowContext.option(FlowAttr.data, params[i]);
 
             response.setDataClass(paramClazz);
@@ -85,10 +87,6 @@ public final class DefaultActionMethodParamParser implements ActionMethodParamPa
         return params;
     }
 
-
-    private DefaultActionMethodParamParser() {
-
-    }
 
     public static DefaultActionMethodParamParser me() {
         return Holder.ME;

@@ -16,10 +16,13 @@
  */
 package com.iohao.game.action.skeleton.core.flow.interal;
 
+import com.iohao.game.action.skeleton.core.ActionCommand;
 import com.iohao.game.action.skeleton.core.exception.MsgException;
 import com.iohao.game.action.skeleton.core.flow.ActionMethodResultWrap;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowAttr;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParser;
+import com.iohao.game.action.skeleton.core.flow.parser.MethodParsers;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,13 +52,22 @@ public final class DefaultActionMethodResultWrap implements ActionMethodResultWr
             return;
         }
 
+        ActionCommand.ActionMethodReturnInfo actionMethodReturnInfo = flowContext.getActionCommand().getActionMethodReturnInfo();
+
         // （action 返回值是 void 或者结果是 null ）不做处理
-        if (flowContext.getActionCommand().getActionMethodReturnInfo().isVoid() || result == null) {
+        if (actionMethodReturnInfo.isVoid() || result == null) {
             return;
         }
 
+        MethodParser paramParser = MethodParsers.me().getMethodParser(actionMethodReturnInfo);
+
+        // 根据返回值类型
+        Object methodResult = paramParser.parseResult(actionMethodReturnInfo, result);
+        // 重新赋值一下 methodResult 到 flowContext 中，方便在 DebugInOut 中的打印
+        flowContext.setMethodResult(methodResult);
+
         // 业务方法返回值
-        responseMessage.setData(result);
+        responseMessage.setData(methodResult);
     }
 
 

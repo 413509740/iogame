@@ -1,6 +1,5 @@
 syntax = "proto3";
-package com.iohao.little.game.bolt.client.external.bootstrap.message;
-option java_outer_classname = "ExternalMessage$$ByJProtobuf";
+package com.iohao.message;
 //对外数据协议
 message ExternalMessage {
   // 请求命令类型: 0 心跳，1 业务
@@ -15,4 +14,28 @@ message ExternalMessage {
   string validMsg = 5;
   // 业务请求数据
   bytes dataContent = 6;
+}
+
+// int 包装类
+message IntPb {
+  // int 值
+  sint32 intValue = 1;
+}
+
+// int list 包装类
+message IntListPb {
+  // intList
+  repeated sint32 intValues = 1;
+}
+
+// long 包装类
+message LongPb {
+  // long 值
+  sint64 longValue = 1;
+}
+
+// long list 包装类
+message LongListPb {
+  // longList
+  repeated sint64 longValues = 1;
 }

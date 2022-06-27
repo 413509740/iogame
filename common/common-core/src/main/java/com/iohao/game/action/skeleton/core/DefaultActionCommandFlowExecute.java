@@ -50,7 +50,7 @@ public final class DefaultActionCommandFlowExecute implements ActionCommandFlowE
         // 1 ---- fuck前 在调用控制器对应处理方法前, 执行inout的in.
         inOutManager.fuckIn(flowContext);
 
-        // true 表示没有错误码 。如果在这里有错误码，一般是业务参数验证得到的错误 （既开启了业务框架的验证）
+        // true 表示没有错误码 。如果在这里有错误码，一般是业务参数验证得到的错误 （即开启了业务框架的验证）
         boolean notError = !flowContext.getResponse().hasError();
         if (notError) {
             // 2 ---- ActionController 工厂

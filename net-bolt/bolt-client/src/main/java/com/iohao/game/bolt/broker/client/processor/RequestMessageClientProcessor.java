@@ -23,10 +23,11 @@ import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;
 import com.iohao.game.action.skeleton.core.flow.attr.FlowAttr;
 import com.iohao.game.action.skeleton.protocol.RequestMessage;
-import com.iohao.game.bolt.broker.core.client.BrokerClient;
 import com.iohao.game.bolt.broker.core.aware.BrokerClientAware;
+import com.iohao.game.bolt.broker.core.client.BrokerClient;
 import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
-import lombok.Setter;
+import com.iohao.game.bolt.broker.core.common.processor.hook.ClientProcessorHooks;
+import com.iohao.game.bolt.broker.core.common.processor.hook.RequestMessageClientProcessorHook;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,8 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RequestMessageClientProcessor extends AsyncUserProcessor<RequestMessage> implements BrokerClientAware {
 
-    @Setter
     BrokerClient brokerClient;
+    RequestMessageClientProcessorHook requestMessageClientProcessorHook;
 
     @Override
     public void handleRequest(BizContext bizCtx, AsyncContext asyncCtx, RequestMessage request) {
@@ -60,9 +61,9 @@ public class RequestMessageClientProcessor extends AsyncUserProcessor<RequestMes
         }
 
         // 业务框架 flow 上下文
-        var flowContext = new FlowContext()
-                .setRequest(request);
+        var flowContext = new FlowContext().setRequest(request);
 
+        // 动态属性添加
         flowContext.option(FlowAttr.asyncContext, asyncCtx);
         flowContext.option(FlowAttr.brokerClientContext, brokerClient);
         flowContext.option(FlowAttr.logicServerId, brokerClient.getId());
@@ -70,8 +71,16 @@ public class RequestMessageClientProcessor extends AsyncUserProcessor<RequestMes
 
         // 得到逻辑服对应的业务框架
         BarSkeleton barSkeleton = brokerClient.getBarSkeleton();
-        // 通过业务框架把请求派发给指定的业务类来处理
-        barSkeleton.handle(flowContext);
+
+        this.requestMessageClientProcessorHook.processLogic(barSkeleton, flowContext);
+    }
+
+    @Override
+    public void setBrokerClient(BrokerClient brokerClient) {
+        this.brokerClient = brokerClient;
+
+        ClientProcessorHooks clientProcessorHooks = brokerClient.getClientProcessorHooks();
+        this.requestMessageClientProcessorHook = clientProcessorHooks.getRequestMessageClientProcessorHook();
     }
 
     /**

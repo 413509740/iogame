@@ -5,7 +5,7 @@
     <parent>
         <artifactId>iogame</artifactId>
         <groupId>com.iohao.game</groupId>
-        <version>1.3.0</version>
+        <version>1.4.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -115,4 +115,6 @@
             <version>${hessian.version}</version>
         </dependency>
     </dependencies>
+
+
 </project>

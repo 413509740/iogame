@@ -21,6 +21,7 @@ import com.alipay.remoting.ConnectionEventType;
 import com.alipay.remoting.rpc.protocol.UserProcessor;
 import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
+import com.iohao.game.bolt.broker.core.common.processor.hook.ClientProcessorHooks;
 import com.iohao.game.bolt.broker.core.message.BrokerClientModuleMessage;
 import com.iohao.game.common.kit.NetworkKit;
 import lombok.AccessLevel;
@@ -96,6 +97,8 @@ public class BrokerClientBuilder {
     /** 消息发送超时时间 */
     int timeoutMillis = BrokerGlobalConfig.timeoutMillis;
 
+    /** bolt 业务处理器的钩子管理器 */
+    ClientProcessorHooks clientProcessorHooks;
 
     BrokerClientBuilder() {
     }
@@ -163,7 +166,8 @@ public class BrokerClientBuilder {
                 .setBrokerClientModuleMessage(brokerClientModuleMessage)
                 .setTimeoutMillis(this.timeoutMillis)
                 .setConnectionEventProcessorMap(this.connectionEventProcessorMap)
-                .setProcessorList(this.processorList);
+                .setProcessorList(this.processorList)
+                .setClientProcessorHooks(this.clientProcessorHooks);
 
         // 保存一下 BrokerClient 的引用
         if (this.brokerClientType == BrokerClientType.LOGIC) {
@@ -185,6 +189,11 @@ public class BrokerClientBuilder {
 
         if (Objects.isNull(this.tag)) {
             this.tag = this.appName;
+        }
+
+        if (Objects.isNull(this.clientProcessorHooks)) {
+            // 因为目前 clientProcess 的 hook 只有一个，暂时这样处理着
+            this.clientProcessorHooks = new ClientProcessorHooks();
         }
 
         for (Class<?> removeClass : this.removeProcessorList) {

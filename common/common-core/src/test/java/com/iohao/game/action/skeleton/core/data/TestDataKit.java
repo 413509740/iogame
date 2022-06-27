@@ -19,8 +19,11 @@ package com.iohao.game.action.skeleton.core.data;
 import com.iohao.game.action.skeleton.annotation.ActionController;
 import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.action.skeleton.core.BarSkeletonBuilder;
+import com.iohao.game.action.skeleton.core.CmdInfo;
 import com.iohao.game.action.skeleton.core.action.BeeAction;
 import com.iohao.game.action.skeleton.core.flow.interal.DebugInOut;
+import com.iohao.game.action.skeleton.protocol.HeadMetadata;
+import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.common.kit.ClassScanner;
 import lombok.experimental.UtilityClass;
 
@@ -61,5 +64,16 @@ public class TestDataKit {
 
 
         return builder;
+    }
+
+    public RequestMessage createRequestMessage(CmdInfo cmdInfo) {
+        // 模拟请求
+        HeadMetadata headMetadata = new HeadMetadata();
+        headMetadata.setCmdInfo(cmdInfo);
+
+        RequestMessage requestMessage = new RequestMessage();
+        requestMessage.setHeadMetadata(headMetadata);
+
+        return requestMessage;
     }
 }
