@@ -56,6 +56,7 @@ import java.util.Objects;
  * @date 2022-01-09
  */
 @Slf4j
+@Setter
 @Accessors(fluent = true)
 public final class ExternalServerBuilder {
 
@@ -72,15 +73,12 @@ public final class ExternalServerBuilder {
     final int port;
 
     /** 连接方式 */
-    @Setter
     ExternalJoinEnum externalJoinEnum = ExternalJoinEnum.WEBSOCKET;
     /** 内部逻辑服 连接网关服务器，与网关通信 */
-    @Setter
     ExternalBrokerClientStartup externalBoltBrokerClientStartup = new ExternalBrokerClientStartup();
     /** 设置 broker （游戏网关）连接地址 */
     BrokerAddress brokerAddress;
     /** setting ServerBootstrap option */
-    @Setter
     ServerBootstrapSetting serverBootstrapSetting;
 
     ExternalServerBuilder(int port) {
