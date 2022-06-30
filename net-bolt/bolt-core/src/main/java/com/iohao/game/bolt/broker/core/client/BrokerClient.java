@@ -26,9 +26,7 @@ import com.iohao.game.action.skeleton.core.commumication.BroadcastContext;
 import com.iohao.game.action.skeleton.core.commumication.BrokerClientContext;
 import com.iohao.game.action.skeleton.core.commumication.InvokeModuleContext;
 import com.iohao.game.action.skeleton.core.commumication.ProcessorContext;
-import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
-import com.iohao.game.action.skeleton.protocol.collect.ResponseCollectMessage;
 import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
 import com.iohao.game.bolt.broker.core.common.processor.hook.ClientProcessorHooks;
 import com.iohao.game.bolt.broker.core.message.BrokerClientModuleMessage;
@@ -177,19 +175,6 @@ public class BrokerClient implements BrokerClientContext {
     public void broadcast(ResponseMessage responseMessage) {
         BrokerClientItem nextClient = next();
         nextClient.broadcast(responseMessage);
-    }
-
-
-    @Override
-    public ResponseMessage invokeModuleMessage(RequestMessage requestMessage) {
-        BrokerClientItem nextClient = next();
-        return nextClient.invokeModuleMessage(requestMessage);
-    }
-
-    @Override
-    public ResponseCollectMessage invokeModuleCollectMessage(RequestMessage requestMessage) {
-        BrokerClientItem nextClient = next();
-        return nextClient.invokeModuleCollectMessage(requestMessage);
     }
 
     @Override

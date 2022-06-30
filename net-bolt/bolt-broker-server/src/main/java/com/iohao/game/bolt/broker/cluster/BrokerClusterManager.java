@@ -296,10 +296,8 @@ public class BrokerClusterManager implements ClusterMessageHandler {
     private Broker memberToBroker(Member member) {
         Address address = member.address();
 
-        Broker broker = new Broker(address.host())
+        return new Broker(address.host())
                 .setClusterAddress(address.toString());
-
-        return broker;
     }
 
     private List<Address> listSeedMemberAddress() {

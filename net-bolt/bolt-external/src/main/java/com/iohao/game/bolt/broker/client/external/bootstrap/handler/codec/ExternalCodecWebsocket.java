@@ -40,13 +40,13 @@ import java.util.Objects;
 public class ExternalCodecWebsocket extends MessageToMessageCodec<BinaryWebSocketFrame, ExternalMessage> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ExternalMessage msg, List<Object> out) throws Exception {
+        // 【对外服】 发送消息 给 游戏客户端
         if (Objects.isNull(msg)) {
             throw new Exception("The encode ExternalMessage is null");
         }
 
         // 编码器 - ExternalMessage ---> 字节数组
         byte[] bytes = ProtoKit.toBytes(msg);
-        log.debug("=== 【对外服】 发送消息 给 游戏客户端=== {}", msg);
         ByteBuf byteBuf = Unpooled.wrappedBuffer(bytes);
 
         BinaryWebSocketFrame socketFrame = new BinaryWebSocketFrame(byteBuf);
@@ -61,7 +61,7 @@ public class ExternalCodecWebsocket extends MessageToMessageCodec<BinaryWebSocke
         content.readBytes(msgBytes);
 
         ExternalMessage message = ProtoKit.parseProtoByte(msgBytes, ExternalMessage.class);
-        log.debug("=== 【对外服】 接收 游戏客户端的消息 === {}", message);
+        // 【对外服】 接收 游戏客户端的消息
         out.add(message);
     }
 

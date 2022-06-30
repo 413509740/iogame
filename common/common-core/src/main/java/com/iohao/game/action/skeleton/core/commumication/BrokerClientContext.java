@@ -18,9 +18,6 @@ package com.iohao.game.action.skeleton.core.commumication;
 
 import com.alipay.remoting.AsyncContext;
 import com.alipay.remoting.exception.RemotingException;
-import com.iohao.game.action.skeleton.protocol.RequestMessage;
-import com.iohao.game.action.skeleton.protocol.ResponseMessage;
-import com.iohao.game.action.skeleton.protocol.collect.ResponseCollectMessage;
 
 /**
  * 当前服务器上下文
@@ -42,7 +39,7 @@ public interface BrokerClientContext extends AsyncContext {
     void oneway(final Object request) throws RemotingException;
 
     /**
-     * 得到广播通讯上下文
+     * 推送通讯相关 - 得到广播通讯上下文
      *
      * @return 广播通讯上下文
      */
@@ -56,39 +53,9 @@ public interface BrokerClientContext extends AsyncContext {
     ProcessorContext getProcessorContext();
 
     /**
-     * 得到 内部模块通讯上下文
+     * 逻辑服间的相互通信相关 - 得到内部模块通讯上下文
      *
      * @return 内部模块通讯上下文
      */
     InvokeModuleContext getInvokeModuleContext();
-
-    /**
-     * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
-     * <pre>
-     *     请用 {@link InvokeModuleContext#invokeModuleMessage(RequestMessage)}
-     * </pre>
-     *
-     * @param requestMessage requestMessage
-     * @return ResponseMessage
-     */
-    @Deprecated
-    ResponseMessage invokeModuleMessage(RequestMessage requestMessage);
-
-    /**
-     * 模块之间的访问，访问【同类型】的多个逻辑服
-     * <pre>
-     *     模块A 访问 模块B 的某个方法，因为只有模块B持有这些数据，这里的模块指的是逻辑服。
-     *     假设启动了多个模块B，分别是：模块B-1、模块B-2、模块B-3、模块B-4 等。框架支持访问【同类型】的多个逻辑服，并把多个相同逻辑服结果收集到一起。
-     *
-     *     具体的意思可以参考文档中的说明
-     *     https://www.yuque.com/iohao/game/rf9rb9
-     * </pre>
-     * <pre>
-     *     请用 {@link InvokeModuleContext#invokeModuleCollectMessage(RequestMessage)}
-     * </pre>
-     * @param requestMessage requestMessage
-     * @return ResponseAggregationMessage
-     */
-    @Deprecated
-    ResponseCollectMessage invokeModuleCollectMessage(RequestMessage requestMessage);
 }

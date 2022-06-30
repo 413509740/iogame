@@ -38,6 +38,7 @@ import java.util.Objects;
 public class ExternalCodecSocket extends MessageToMessageCodec<ByteBuf, ExternalMessage> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ExternalMessage msg, List<Object> out) throws Exception {
+        // 【对外服】 发送消息 给 游戏客户端
         if (Objects.isNull(msg)) {
             throw new Exception("The encode ExternalMessage is null");
         }
@@ -65,6 +66,7 @@ public class ExternalCodecSocket extends MessageToMessageCodec<ByteBuf, External
         msg.readBytes(msgBytes);
 
         ExternalMessage message = ProtoKit.parseProtoByte(msgBytes, ExternalMessage.class);
+        // 【对外服】 接收 游戏客户端的消息
         out.add(message);
     }
 }

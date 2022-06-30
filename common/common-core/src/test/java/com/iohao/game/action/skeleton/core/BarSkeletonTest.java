@@ -24,12 +24,11 @@ import com.iohao.game.action.skeleton.core.flow.codec.DataCodec;
 import com.iohao.game.action.skeleton.protocol.HeadMetadata;
 import com.iohao.game.action.skeleton.protocol.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
 @Slf4j
 public class BarSkeletonTest {
 
-    @Test
+//    @Test
     public void newBuilder() {
         // 构建业务框架
         BarSkeleton barSkeleton = TestDataKit.newBarSkeleton();
@@ -68,7 +67,7 @@ public class BarSkeletonTest {
         System.out.println();
     }
 
-    @Test
+//    @Test
     public void testVoid() {
         // 构建业务框架
         BarSkeleton barSkeleton = TestDataKit.newBarSkeleton();

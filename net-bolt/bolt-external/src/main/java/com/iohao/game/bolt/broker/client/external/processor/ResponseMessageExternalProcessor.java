@@ -32,8 +32,6 @@ import com.iohao.game.bolt.broker.core.common.BrokerGlobalConfig;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
-
 
 /**
  * 接收来自网关的响应
@@ -53,35 +51,53 @@ public class ResponseMessageExternalProcessor extends AsyncUserProcessor<Respons
         }
 
         ExternalMessage message = ExternalKit.convertExternalMessage(responseMessage);
+        HeadMetadata headMetadata = responseMessage.getHeadMetadata();
 
-        UserSession userSession = null;
+        UserSession userSession;
+        // 这里将有两种情况，一种是要求登录，一种是没有要求登录
 
-        try {
-            HeadMetadata headMetadata = responseMessage.getHeadMetadata();
-
-            // true 表示请求业务方法需要先登录
-            if (ExternalGlobalConfig.verifyIdentity) {
+        // 要求登录的情况：表示请求业务方法需要先登录
+        if (ExternalGlobalConfig.verifyIdentity) {
+            // 如果通过 userId 得不到 UserSession 表示没有登录，返回错误码
+            try {
                 long userId = headMetadata.getUserId();
                 userSession = UserSessions.me().getUserSession(userId);
-            } else {
-                // 一般指用户的 channelId （来源于对外服的 channel 长连接）
-                // see UserSession#employ
+            } catch (RuntimeException e) {
+                log.error(e.getMessage(), e);
+                message.setResponseStatus(ActionErrorEnum.verifyIdentity.getCode());
+                message.setValidMsg("请先登录，在请求业务方法");
+                // 没登录但请求了业务方法，则返回错误码
+                sendError(message, headMetadata);
+                return;
+            }
+        } else {
+            // 一般指用户的 channelId （来源于对外服的 channel 长连接）
+            // see UserSession#employ
+            try {
                 String channelId = headMetadata.getExtJsonField();
                 userSession = UserSessions.me().getUserSession(new UserChannelId(channelId));
+            } catch (RuntimeException e) {
+                log.error(e.getMessage(), e);
+                // 通常是找不到对应的 UserSession
+                return;
             }
-        } catch (RuntimeException e) {
-            log.error(e.getMessage(), e);
-            message.setResponseStatus(ActionErrorEnum.verifyIdentity.getCode());
-            message.setValidMsg(e.getMessage());
-        }
-
-        if (Objects.isNull(userSession)) {
-            return;
         }
 
         // 响应结果给用户
         Channel channel = userSession.getChannel();
         channel.writeAndFlush(message);
+    }
+
+    private void sendError(ExternalMessage message, HeadMetadata headMetadata) {
+        try {
+            String channelId = headMetadata.getExtJsonField();
+            UserSession userSession = UserSessions.me().getUserSession(new UserChannelId(channelId));
+            // 响应结果给用户
+            Channel channel = userSession.getChannel();
+            channel.writeAndFlush(message);
+        } catch (RuntimeException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     /**

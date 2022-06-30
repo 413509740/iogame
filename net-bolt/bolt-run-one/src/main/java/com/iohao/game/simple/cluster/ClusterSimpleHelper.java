@@ -109,8 +109,6 @@ public class ClusterSimpleHelper {
                 .brokerClusterManagerBuilder(brokerClusterManagerBuilder);
 
         // Bolt Broker Server （游戏网关）
-
         return brokerServerBuilder.build();
-
     }
 }

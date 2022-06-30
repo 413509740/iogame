@@ -1,3 +1,16 @@
+
+
+2022-06-30
+(#I5EVQQ)
+示例放到单独的 git 仓库，前期放在一起，就是为了给大家方便运行，好进行一个快速的体验；
+https://gitee.com/iohao/example-iogame
+
+移除
+BrokerClientContext.invokeModuleMessage --> 请用 InvokeModuleContext.invokeModuleMessage(RequestMessage)
+BrokerClientContext.invokeModuleCollectMessage --> 请用 InvokeModuleContext.invokeModuleCollectMessage(RequestMessage)
+参考 https://www.yuque.com/iohao/game/nelwuz#UwwUI
+
+
 2022-06-27
 v1.4.0 (#I5C57I、#I5DTZN)
 

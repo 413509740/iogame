@@ -24,8 +24,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.junit.Before;
-import org.junit.Test;
 
 import static com.iohao.game.action.skeleton.core.action.ExampleActionCont.WrapperLongActionCont;
 
@@ -57,12 +55,12 @@ public class WrapperLongTest {
 
     BarSkeleton barSkeleton;
 
-    @Before
+//    @Before
     public void setUp() {
         barSkeleton = TestDataKit.newBarSkeleton();
     }
 
-    @Test
+//    @Test
     public void longPb() {
         FlowContext flowContext = null;
         flowContext = this.createIntPbFlowContext(WrapperLongActionCont.longPb2Void);
@@ -82,7 +80,7 @@ public class WrapperLongTest {
         barSkeleton.handle(flowContext);
     }
 
-    @Test
+//    @Test
     public void longValue() {
         FlowContext flowContext = null;
         flowContext = this.createIntPbFlowContext(WrapperLongActionCont.long2Void);
@@ -102,7 +100,7 @@ public class WrapperLongTest {
         barSkeleton.handle(flowContext);
     }
 
-    @Test
+//    @Test
     public void longerValue() {
         FlowContext flowContext = null;
         flowContext = this.createIntPbFlowContext(WrapperLongActionCont.longer2Void);

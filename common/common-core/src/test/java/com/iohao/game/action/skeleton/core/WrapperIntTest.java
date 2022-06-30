@@ -25,8 +25,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.ArrayList;
 
@@ -60,13 +58,13 @@ public class WrapperIntTest {
 
     BarSkeleton barSkeleton;
 
-    @Before
+//    @Before
     public void setUp() {
         barSkeleton = TestDataKit.newBarSkeleton();
     }
 
 
-    @Test
+//    @Test
     public void intPb() {
         FlowContext flowContext ;
         flowContext = this.createIntPbFlowContext(WrapperIntActionCont.intPb2Void);
@@ -99,7 +97,7 @@ public class WrapperIntTest {
         barSkeleton.handle(flowContext);
     }
 
-    @Test
+//    @Test
     public void intValue() {
         FlowContext flowContext ;
         flowContext = this.createIntPbFlowContext(WrapperIntActionCont.int2Void);
@@ -119,7 +117,7 @@ public class WrapperIntTest {
         barSkeleton.handle(flowContext);
     }
 
-    @Test
+//    @Test
     public void integerValue() {
         FlowContext flowContext ;
         flowContext = this.createIntPbFlowContext(WrapperIntActionCont.integer2Void);

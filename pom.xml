@@ -107,10 +107,6 @@
         <springboot.version>2.7.0</springboot.version>
         <!--  junit https://mvnrepository.com/artifact/junit/junit  -->
         <junit.version>4.13.2</junit.version>
-        <!-- 模拟客户端 https://mvnrepository.com/artifact/org.java-websocket/Java-WebSocket -->
-        <java-websocket.version>1.5.3</java-websocket.version>
-        <!-- 演示用的假数据 https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
-        <javafaker.version>1.0.2</javafaker.version>
 
         <!-- slf4j https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <slf4j-api.version>1.7.36</slf4j-api.version>
@@ -123,16 +119,8 @@
         <reactor-bom.version>2020.0.17</reactor-bom.version>
 
         <!-- other 后期整理，需要从全局移动到局部模块中 -->
-        <!-- 新一代 Java 模板引擎 see https://www.kancloud.cn/xiandafu/beetl3_guide/1992542 https://mvnrepository.com/artifact/com.ibeetl/beetl -->
-        <beetl.version>3.10.0.RELEASE</beetl.version>
         <!-- Hutool是一个Java工具包 see https://www.hutool.cn/ https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <hutool.version>5.8.2</hutool.version>
-        <!-- 对象池 :  https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
-        <commons-pool.version>2.11.1</commons-pool.version>
-        <!-- Hazelcast提供弹性可扩展的分布式内存计算 https://mvnrepository.com/artifact/com.hazelcast/hazelcast -->
-        <hazelcast.version>5.1.1</hazelcast.version>
-        <!--  JSR-107 高性能缓存库 https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
-        <caffeine.version>3.1.0</caffeine.version>
         <!-- jprotobuf是针对Java程序开发一套简易类库，目的是简化java语言对protobuf类库的使用 https://github.com/jhunters/jprotobuf/ https://mvnrepository.com/artifact/com.baidu/jprotobuf -->
         <jprotobuf.version>2.4.15</jprotobuf.version>
 
@@ -145,13 +133,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -345,6 +326,37 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <index>true</index>
+                        <manifest>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
+                        </manifest>
+                        <manifestSections>
+                            <manifestSection>
+                                <name>hope</name>
+                                <manifestEntries>
+                                    <id>Public ownership of means of production</id>
+                                </manifestEntries>
+                            </manifestSection>
+                            <manifestSection>
+                                <name>zhu luo yi</name>
+                                <manifestEntries>
+                                    <id>渔民小镇</id>
+                                </manifestEntries>
+                            </manifestSection>
+                        </manifestSections>
+
+                    </archive>
+                </configuration>
             </plugin>
 
         </plugins>

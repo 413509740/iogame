@@ -112,7 +112,7 @@ public class ExternalKit {
         ExternalMessage externalMessage = new ExternalMessage();
         externalMessage.setCmdCode(ExternalMessageCmdCode.biz);
         externalMessage.setCmdMerge(headMetadata.getCmdMerge());
-        externalMessage.setResponseStatus((short) responseMessage.getResponseStatus());
+        externalMessage.setResponseStatus(responseMessage.getResponseStatus());
         externalMessage.setData(responseMessage.getData());
 
         return externalMessage;

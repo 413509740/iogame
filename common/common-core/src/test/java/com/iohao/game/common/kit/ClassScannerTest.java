@@ -18,7 +18,6 @@ package com.iohao.game.common.kit;
 
 import com.iohao.game.action.skeleton.annotation.ActionController;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -26,7 +25,7 @@ import java.util.function.Predicate;
 @Slf4j
 public class ClassScannerTest {
 
-    @Test
+//    @Test
     public void scan() {
         Predicate<Class<?>> predicateFilter = (clazz) -> {
             ActionController annotation = clazz.getAnnotation(ActionController.class);

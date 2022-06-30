@@ -52,7 +52,7 @@ public class ExternalMessage {
      *     因此，我们会定义一些响应码，通过编号进行网络传输，方便客户端定位问题。
      *
      *     0:成功
-     *     >0: 有错误
+     *     !=0: 表示有错误
      * </pre>
      */
     @Protobuf(description = "响应码: 0:成功, 其他表示有错误")
