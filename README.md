@@ -51,11 +51,26 @@
 
 <br>
 
-**gitee**：[ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame)	
+在线文档:：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game)
 
-**github**： [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame)	
+|                                    | gitee                                                      | github                                                      |
+| ---------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- |
+| 源码地址                           | [ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame) | [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame) |
+| 示例地址                           | [ioGame 示例集合](https://gitee.com/iohao/example-iogame)  | [ioGame 示例集合](https://github.com/iohao/example-iogame)  |
 
-**在线文档**：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game)
+<br>
+
+------
+
+<br>
+
+|   热心市民提供的游戏前端连接示例代码    | 连接方式 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [u3d 连接示例](https://www.yuque.com/iohao/game/syv5mm) | websocket |
+| [cocoscreator 连接示例](https://www.yuque.com/iohao/game/ua4afq) | websocket |
+
+
+
 
 > **推荐大家看在线文档，排版好一些，README 上看有点乱！**
 
@@ -167,7 +182,7 @@ Result "com.iohao.game.example.benchmark.BarSkeletonBenchmark.handle1":
 
 
 
-无锁化异步化、事件驱动的架构设计、集群无中心节点、自带负载均衡、分布式支持、可动态增减机器、避免类爆炸的设计；
+无锁异步化、事件驱动的架构设计、集群无中心节点、自带负载均衡、分布式支持、可动态增减机器、避免类爆炸的设计；
 
 
 
@@ -204,7 +219,17 @@ broker （游戏网关）可以**集群**的方式部署，集群无中心节点
 ## ioGame 支持的通讯方式
 ![img](https://oscimg.oschina.net/oscnet/up-7cc466fa3c1f88b6e7fcff7120b82e27ee7.png)
 
-ioGame 支持 3 种类型的通讯方式，分别是单次请求处理、推送、逻辑服间的相互通信；下面分别对这 3 种类型的通讯方式相关的应用场景举几个例子。
+ioGame 支持 3 种类型的通讯方式，分别是**单次请求处理、推送、逻辑服间**的相互通信；下面分别对这 3 种类型的通讯方式相关的应用场景举几个例子。
+
+
+
+框架对这 3 种类型的通讯方式提供了代码调用点的日志，简单点说就是框架可以让开发者知道，是在哪一行代码中触发的业务逻辑。
+
+
+
+我们可以想象一下，假如框架没有提供代码调用点的日志会是什么样的；比如，游戏前端发送一个业务请求到游戏服务器中，但是处理这个请求的业务方法，会触发多个响应（通常是推送、广播）给游戏前端。一但时间久了，开发者是很难知道分别响应了哪些业务数据给游戏前端，特别是一些二手项目；所以这将是一个灾难性的问题，因为这会耗费大量的时间来寻找这些相关的业务代码。
+
+
 
 <details>
 <summary>3 种类型的通讯方式的详细内容--点我展开</summary>

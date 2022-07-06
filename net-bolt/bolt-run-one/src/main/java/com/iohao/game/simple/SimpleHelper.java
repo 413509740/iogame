@@ -105,11 +105,11 @@ public class SimpleHelper {
 
         // 简单的启动器
         new SimpleRunOne()
-                // 对外服
+                // 游戏对外服
                 .setExternalServer(externalServer)
-                // 逻辑服列表
+                // 游戏逻辑服列表
                 .setLogicServerList(logicList)
-                // 启动 对外服、网关、逻辑服
+                // 启动 游戏对外服、游戏网关服、游戏逻辑服
                 .startup();
     }
 }
