@@ -6,9 +6,10 @@
 
     <groupId>com.iohao.game</groupId>
     <artifactId>iogame</artifactId>
-    <version>1.4.0</version>
+    <version>17.1.1</version>
     <name>ioGame</name>
     <description>ioGame网络游戏服务器框架</description>
+    <url>https://www.yuque.com/iohao/game</url>
 
     <modules>
         <!-- 网络游戏框架 - 业务框架 -->
@@ -42,10 +43,8 @@
         <!-- 游戏部件 : 进一步减少开发实践过程中的工作量 -->
         <module>widget-game/light-game-room</module>
 
-
-        <!-- 扩展服 - 监控 -->
+        <!-- 扩展服 - 监控相关 -->
         <module>broker-starter-ext/broker-starter-monitor-logic</module>
-        <module>broker-starter-ext/broker-client-ext-monitor</module>
 
     </modules>
 
@@ -53,11 +52,7 @@
     <properties>
         <!-- jdk 版本 -->
         <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <encoding>UTF-8</encoding>
 
         <!-- 网络库 : https://mvnrepository.com/artifact/io.netty/netty-all -->
@@ -78,7 +73,7 @@
         <lombok.version>1.18.24</lombok.version>
 
         <!-- redis internal : https://www.oschina.net/p/redisson https://mvnrepository.com/artifact/org.redisson/redisson -->
-        <redisson.version>3.17.3</redisson.version>
+        <redisson.version>3.17.4</redisson.version>
         <!-- json 解析器 : https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
         <fastjson.version>2.0.8</fastjson.version>
 
@@ -104,7 +99,7 @@
         <!-- temp spring boot https://mvnrepository.com/artifact/org.springframework/spring-core -->
         <spring.version>5.3.21</spring.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
-        <springboot.version>2.7.0</springboot.version>
+        <springboot.version>2.7.1</springboot.version>
         <!--  junit https://mvnrepository.com/artifact/junit/junit  -->
         <junit.version>4.13.2</junit.version>
 
@@ -114,13 +109,13 @@
         <logback.version>1.2.11</logback.version>
         <!-- OSHI 是一个免费的基于 JNA（本机）的 Java 操作系统和硬件信息库。 -->
         <!-- https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->
-        <oshi-core.version>6.1.6</oshi-core.version>
+        <oshi-core.version>6.2.1</oshi-core.version>
 
         <reactor-bom.version>2020.0.17</reactor-bom.version>
 
         <!-- other 后期整理，需要从全局移动到局部模块中 -->
         <!-- Hutool是一个Java工具包 see https://www.hutool.cn/ https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
-        <hutool.version>5.8.2</hutool.version>
+        <hutool.version>5.8.4</hutool.version>
         <!-- jprotobuf是针对Java程序开发一套简易类库，目的是简化java语言对protobuf类库的使用 https://github.com/jhunters/jprotobuf/ https://mvnrepository.com/artifact/com.baidu/jprotobuf -->
         <jprotobuf.version>2.4.15</jprotobuf.version>
 
@@ -206,14 +201,33 @@
         </dependencies>
     </dependencyManagement>
 
+    <issueManagement>
+        <system>Github Issue</system>
+        <url>https://github.com/iohao/iogame/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>渔民小镇</name>
+            <email>262610965@qq.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/iohao/iogame</url>
+        <connection>https://github.com/iohao/iogame.git</connection>
+        <developerConnection>https://github.com/iohao</developerConnection>
+    </scm>
+
     <build>
         <plugins>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
-            </plugin>
 
             <!--
             编译插件
@@ -359,7 +373,121 @@
                 </configuration>
             </plugin>
 
+            <!-- Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                    <doclint>none</doclint>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
+    <profiles>
+        <!-- mvn clean deploy -P oss-release -Dmaven.test.skip=true -e -->
+        <profile>
+            <id>oss-release</id>
+
+            <build>
+                <plugins>
+
+                    <!-- Gpg Signature -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- 自动发布 -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss-iogame</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <!-- false 手动关闭 release -->
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
+                        <dependencies>
+                            <!--
+                            apparently this needs to be exactly this version
+                            https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+                            -->
+                            <dependency>
+                                <groupId>com.thoughtworks.xstream</groupId>
+                                <artifactId>xstream</artifactId>
+                                <version>1.4.15</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+
+                    <!--                    <plugin>-->
+                    <!--                        <groupId>org.sonatype.plugins</groupId>-->
+                    <!--                        <artifactId>nexus-staging-maven-plugin</artifactId>-->
+                    <!--                        <version>1.6.3</version>-->
+                    <!--                        <extensions>true</extensions>-->
+                    <!--                        <configuration>-->
+                    <!--                            <serverId>snapshots</serverId>-->
+                    <!--                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+                    <!--                            <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+                    <!--                        </configuration>-->
+                    <!--                    </plugin>-->
+
+                    <!-- Javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                            <doclint>none</doclint>
+                        </configuration>
+
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <repository>
+            <!-- 这里的id要与 maven setting.xml 中 server 的 id 一致 -->
+            <id>oss-iogame</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <uniqueVersion>true</uniqueVersion>
+        </repository>
+    </distributionManagement>
 </project>

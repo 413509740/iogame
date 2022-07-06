@@ -25,15 +25,30 @@ import java.util.Objects;
  *     see {@link AttrOptionDynamic}
  * </pre>
  *
+ * @param <T> t
  * @author 渔民小镇
  * @date 2022-01-31
  */
 public record AttrOption<T>(String name, T defaultValue) implements Serializable {
-
+    /**
+     * 初始化 一个 AttrOption
+     *
+     * @param name name
+     * @param <T>  t
+     * @return AttrOption
+     */
     public static <T> AttrOption<T> valueOf(String name) {
         return new AttrOption<T>(name, null);
     }
 
+    /**
+     * 初始化 一个 AttrOption
+     *
+     * @param name         name
+     * @param defaultValue 默认值
+     * @param <T>          t
+     * @return AttrOption
+     */
     public static <T> AttrOption<T> valueOf(String name, T defaultValue) {
         return new AttrOption<T>(name, defaultValue);
     }

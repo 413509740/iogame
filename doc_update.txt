@@ -1,13 +1,37 @@
 
+2022-07-06
+v17.1.1 (上传到中央仓库)
+(#I5EE8E、#I5DFRM)
+
+ioGame上传到中央仓库；
+
+ioGame 版本规则 x.y.z
+    x 表示当前使用的 JDK 版本
+    y 表示 ioGame API变更版本 （基本上不会变动、常规下是变动 x 才会变动 API）
+    z 表示 ioGame 新特性、新功能、新模块、bugfix 相关
+
+    ioGame 的 x 会跟着最新的 JDK LTS 版本来走的，目的是确保 ioGame 的API 不会发生很大的变化。
+    为了保持新活力与接受新鲜事物， ioGame 基本会用上最新的 JDK LTS;
+    x 一般延后 1~4 个季度，给开发者一个缓冲。即下一个 JDK LTS 出来后，那么 ioGame 的 x 会在 1~4个季度后跟上。
+    也就是说，下一个 x 将会是 21;
+
+扩展库移到
+https://gitee.com/iohao/ext-iogame
 
 2022-06-30
 (#I5EVQQ)
-示例放到单独的 git 仓库，前期放在一起，就是为了给大家方便运行，好进行一个快速的体验；
+当开启登录验证时，客户端没登录而请求业务方法时，返回对应的错误码到请求端；
+
+将网络游戏服务器框架的示例放到单独的 git 仓库；前期放在一起是为了方便运行演示，好给开发者进行一个快速的体验；
 https://gitee.com/iohao/example-iogame
 
 移除
-BrokerClientContext.invokeModuleMessage --> 请用 InvokeModuleContext.invokeModuleMessage(RequestMessage)
-BrokerClientContext.invokeModuleCollectMessage --> 请用 InvokeModuleContext.invokeModuleCollectMessage(RequestMessage)
+BrokerClientContext.invokeModuleMessage
+--> 请用 InvokeModuleContext.invokeModuleMessage(RequestMessage)
+
+BrokerClientContext.invokeModuleCollectMessage
+--> 请用 InvokeModuleContext.invokeModuleCollectMessage(RequestMessage)
+
 参考 https://www.yuque.com/iohao/game/nelwuz#UwwUI
 
 
