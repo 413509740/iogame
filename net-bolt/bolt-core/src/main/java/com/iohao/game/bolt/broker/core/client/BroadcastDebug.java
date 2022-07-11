@@ -21,6 +21,7 @@ import com.iohao.game.action.skeleton.core.DataCodecKit;
 import com.iohao.game.action.skeleton.core.commumication.BroadcastContext;
 import com.iohao.game.action.skeleton.protocol.ResponseMessage;
 import com.iohao.game.bolt.broker.core.message.BroadcastMessage;
+import com.iohao.game.common.kit.CollKit;
 import com.iohao.game.common.kit.JsonKit;
 import com.iohao.game.common.kit.StrKit;
 import lombok.experimental.UtilityClass;
@@ -52,7 +53,15 @@ class BroadcastDebug {
         // 接收广播的用户
         String userIds = getUserIds(broadcastMessage);
         ResponseMessage responseMessage = broadcastMessage.getResponseMessage();
-        Object returnData = DataCodecKit.decode(responseMessage.getData(), responseMessage.getDataClass());
+        Object returnData = null;
+
+        try {
+            String dataClass = responseMessage.getDataClass();
+            Class<?> aClass = Class.forName(dataClass);
+            returnData = DataCodecKit.decode(responseMessage.getData(), aClass);
+        } catch (ClassNotFoundException e) {
+            log.error(e.getMessage(), e);
+        }
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("returnData", returnData);
@@ -69,16 +78,18 @@ class BroadcastDebug {
                 ┣ 广播时间: {time}
                 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                 """;
+
         String message = StrKit.format(template, paramMap);
-        System.out.println(message);
+        log.info("\n{}", message);
     }
 
     private String getUserIds(BroadcastMessage broadcastMessage) {
         String userIds = "";
         Collection<Long> userIdList = broadcastMessage.getUserIdList();
+
         if (broadcastMessage.isBroadcastAll()) {
             userIds = "全服广播";
-        } else if (userIdList != null && !userIdList.isEmpty()) {
+        } else if (CollKit.notEmpty(userIdList)) {
             userIds = userIdList.toString();
         }
 

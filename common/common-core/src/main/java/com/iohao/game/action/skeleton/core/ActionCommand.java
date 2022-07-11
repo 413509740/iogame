@@ -263,7 +263,7 @@ public final class ActionCommand {
 
         final boolean customMethodParser;
 
-        /** true : 参数开启 JSR 303、JSR 349、JSR 380 验证规范 */
+        /** true : 开启 JSR380 验证规范 */
         boolean validator;
 
         ParamInfo(int index, Parameter p) {

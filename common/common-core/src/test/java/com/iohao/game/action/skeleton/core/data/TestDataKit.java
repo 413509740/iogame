@@ -36,9 +36,7 @@ public class TestDataKit {
     public BarSkeleton newBarSkeleton() {
         BarSkeletonBuilder builder = createBuilder();
 
-        BarSkeleton barSkeleton = builder.build();
-
-        return barSkeleton;
+        return builder.build();
     }
 
     public BarSkeletonBuilder createBuilder() {

@@ -114,6 +114,7 @@ public class ExternalKit {
         externalMessage.setCmdMerge(headMetadata.getCmdMerge());
         externalMessage.setResponseStatus(responseMessage.getResponseStatus());
         externalMessage.setData(responseMessage.getData());
+        externalMessage.setValidMsg(responseMessage.getValidatorMsg());
 
         return externalMessage;
     }

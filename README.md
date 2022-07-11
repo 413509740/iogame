@@ -1,6 +1,6 @@
-<h1 align="center" style="text-align:center;">
+<h2 align="center" style="text-align:center;">
   ioGame
-</h1>
+</h2>
 <p align="center">
 	<strong>国内首个基于蚂蚁金服 SOFABolt 的 java 网络游戏服务器框架；无锁异步化、事件驱动的架构设计；</strong>
 	<br>
@@ -53,10 +53,10 @@
 
 在线文档:：[ioGame 网络游戏框架-文档](https://www.yuque.com/iohao/game)
 
-|                                    | gitee                                                      | github                                                      |
-| ---------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- |
-| 源码地址                           | [ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame) | [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame) |
-| 示例地址                           | [ioGame 示例集合](https://gitee.com/iohao/example-iogame)  | [ioGame 示例集合](https://github.com/iohao/example-iogame)  |
+|          | gitee                                                      | github                                                      |
+| -------- | ---------------------------------------------------------- | ----------------------------------------------------------- |
+| 源码地址 | [ioGame 网络游戏框架-源码](https://gitee.com/iohao/iogame) | [ioGame 网络游戏框架-源码](https://github.com/iohao/iogame) |
+| 示例地址 | [ioGame 示例集合](https://gitee.com/iohao/example-iogame)  | [ioGame 示例集合](https://github.com/iohao/example-iogame)  |
 
 <br>
 
@@ -775,9 +775,9 @@ action 有这么几个组成部分：方法名、方法参数、方法体、方�
 
 #### 参数的数据验证方面（方法参数的验证）
 
-框架支持 JSR303+ 相关验证规范，业务参数的验证不在需要写在业务代码里面，可以使得业务代码更干净。若不使用验证框架，常规的做法是不断的在业务代码中疯狂使用 if else 输出，使得业务代码混乱。
+框架支持 JSR380 相关验证规范，业务参数的验证不在需要写在业务代码里面，可以使得业务代码更干净。若不使用验证框架，常规的做法是不断的在业务代码中疯狂使用 if else 输出，使得业务代码混乱。
 
-参考：[开启JSR303+验证规范](https://www.yuque.com/iohao/game/ghng6g)
+参考：[开启 JSR380 验证规范](https://www.yuque.com/iohao/game/ghng6g)
 
 
 

@@ -86,20 +86,20 @@
         <!--  disruptor https://mvnrepository.com/artifact/com.lmax/disruptor -->
         <disruptor.version>3.4.4</disruptor.version>
 
-        <!-- JSR-303、JSR 349 bean 验证框架 https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+        <!-- JSR-380 bean 验证框架 https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
         <hibernate-validator.version>7.0.4.Final</hibernate-validator.version>
-        <!-- JSR-303、JSR 349 https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
-        <jakarta.validation-api.version>3.0.1</jakarta.validation-api.version>
-        <!-- JSR-303、JSR 349 https://mvnrepository.com/artifact/org.glassfish/jakarta.el -->
+        <!-- JSR-380 https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <!-- JSR-380 https://mvnrepository.com/artifact/org.glassfish/jakarta.el -->
         <jakarta.el.version>4.0.2</jakarta.el.version>
 
         <!-- Java 实体映射工具 https://mvnrepository.com/artifact/org.mapstruct/mapstruct https://mapstruct.org/documentation/reference-guide/ -->
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 
         <!-- temp spring boot https://mvnrepository.com/artifact/org.springframework/spring-core -->
-        <spring.version>5.3.21</spring.version>
+        <spring.version>5.3.20</spring.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
-        <springboot.version>2.7.1</springboot.version>
+        <springboot.version>2.7.0</springboot.version>
         <!--  junit https://mvnrepository.com/artifact/junit/junit  -->
         <junit.version>4.13.2</junit.version>
 
@@ -370,25 +370,6 @@
                         </manifestSections>
 
                     </archive>
-                </configuration>
-            </plugin>
-
-            <!-- Javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                    <doclint>none</doclint>
                 </configuration>
             </plugin>
 

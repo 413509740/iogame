@@ -73,8 +73,6 @@ public final class DefaultActionMethodParamParser implements ActionMethodParamPa
 
             flowContext.option(FlowAttr.data, params[i]);
 
-            response.setDataClass(paramClazz);
-
             // 如果开启了验证
             if (paramInfo.isValidator()) {
                 // 进行 JSR303+ 相关的验证

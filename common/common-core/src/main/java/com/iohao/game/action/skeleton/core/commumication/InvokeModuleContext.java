@@ -40,6 +40,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的方法，并且不需要返回值
      * <pre>
      *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#gtdrv
      *     https://www.yuque.com/iohao/game/anguu6#cZfdx
      * </pre>
      *
@@ -55,6 +56,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的方法，并且不需要返回值
      * <pre>
      *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#gtdrv
      *     https://www.yuque.com/iohao/game/anguu6#cZfdx
      * </pre>
      *
@@ -68,6 +70,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的方法，并且不需要返回值
      * <pre>
      *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#gtdrv
      *     https://www.yuque.com/iohao/game/anguu6#cZfdx
      * </pre>
      *
@@ -79,6 +82,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
      * <pre>
      *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#L9TAJ
      *     https://www.yuque.com/iohao/game/anguu6
      * </pre>
      *
@@ -99,6 +103,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
      * <pre>
      *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#L9TAJ
      *     https://www.yuque.com/iohao/game/anguu6
      * </pre>
      *
@@ -115,6 +120,7 @@ public interface InvokeModuleContext {
      * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
      * <pre>
      *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#L9TAJ
      *     https://www.yuque.com/iohao/game/anguu6
      * </pre>
      *
@@ -125,6 +131,21 @@ public interface InvokeModuleContext {
     default ResponseMessage invokeModuleMessage(CmdInfo cmdInfo, Object data) {
         RequestMessage requestMessage = BarMessageKit.createRequestMessage(cmdInfo, data);
         return this.invokeModuleMessage(requestMessage);
+    }
+
+    /**
+     * 根据路由信息来请求其他子服务器（其他逻辑服）的数据
+     * <pre>
+     *     相关文档
+     *     https://www.yuque.com/iohao/game/nelwuz#L9TAJ
+     *     https://www.yuque.com/iohao/game/anguu6
+     * </pre>
+     *
+     * @param cmdInfo cmdInfo
+     * @return ResponseMessage
+     */
+    default ResponseMessage invokeModuleMessage(CmdInfo cmdInfo) {
+        return this.invokeModuleMessage(cmdInfo, null);
     }
 
     /**
@@ -146,6 +167,7 @@ public interface InvokeModuleContext {
      *     假设启动了多个模块B，分别是：模块B-1、模块B-2、模块B-3、模块B-4 等。框架支持访问【同类型】的多个逻辑服，并把多个相同逻辑服结果收集到一起。
      *
      *     具体的意思可以参考文档中的说明
+     *     https://www.yuque.com/iohao/game/nelwuz#gSdya
      *     https://www.yuque.com/iohao/game/rf9rb9
      * </pre>
      *
@@ -165,6 +187,7 @@ public interface InvokeModuleContext {
      *     假设启动了多个模块B，分别是：模块B-1、模块B-2、模块B-3、模块B-4 等。框架支持访问【同类型】的多个逻辑服，并把多个相同逻辑服结果收集到一起。
      *
      *     具体的意思可以参考文档中的说明
+     *     https://www.yuque.com/iohao/game/nelwuz#gSdya
      *     https://www.yuque.com/iohao/game/rf9rb9
      * </pre>
      *
@@ -183,6 +206,7 @@ public interface InvokeModuleContext {
      *     框架支持访问【同类型】的多个逻辑服，并把多个相同逻辑服结果收集到一起。
      *
      *     具体的意思可以参考文档中的说明
+     *     https://www.yuque.com/iohao/game/nelwuz#gSdya
      *     https://www.yuque.com/iohao/game/rf9rb9
      * </pre>
      *

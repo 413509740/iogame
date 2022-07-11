@@ -58,27 +58,35 @@ public class BarSkeletonSetting {
     ParseType parseType = ParseType.PB;
 
     /**
-     * true : 业务参数开启 JSR303、JSR 349、JSR 380 验证规范
+     * true : 业务参数开启 JSR380 验证规范
      *
      * <pre>
-     *     关于启JSR303+验证规范可以参考这里：
+     *     关于启 JSR380 验证规范可以参考这里：
      *     https://www.yuque.com/iohao/game/ghng6g
      * </pre>
      * <p>
-     * 需要在你的项目 maven 中引入
+     * 需要在你的项目 maven 中引入相关 pom
+     * 具体参考 https://www.yuque.com/iohao/game/ghng6g#qRSEu
      * <pre>
+     *         &lt;!-- hibernate validator -->
+     *         &lt;dependency>
+     *             &lt;groupId>org.hibernate.validator&lt;/groupId>
+     *             &lt;artifactId>hibernate-validator&lt;/artifactId>
+     *             &lt;version>7.0.4.Final&lt;/version>
+     *         &lt;/dependency>
+     *
      *         &lt;!-- EL实现。在Java SE环境中，您必须将实现作为依赖项添加到POM文件中-->
      *         &lt;dependency>
      *             &lt;groupId>org.glassfish&lt;/groupId>
      *             &lt;artifactId>jakarta.el&lt;/artifactId>
-     *             &lt;version>4.0.1&lt;/version>
+     *             &lt;version>4.0.2&lt;/version>
      *         &lt;/dependency>
      *
      *         &lt;!-- 验证器Maven依赖项 -->
      *         &lt;dependency>
      *             &lt;groupId>jakarta.validation&lt;/groupId>
      *             &lt;artifactId>jakarta.validation-api&lt;/artifactId>
-     *             &lt;version>3.0.0&lt;/version>
+     *             &lt;version>3.0.2&lt;/version>
      *         &lt;/dependency>
      * </pre>
      */

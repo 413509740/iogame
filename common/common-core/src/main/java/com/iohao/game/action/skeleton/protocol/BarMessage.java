@@ -48,14 +48,19 @@ public abstract sealed class BarMessage implements Serializable, ToJson permits 
 
     /** 响应码: 0:成功, 其他表示有错误 */
     int responseStatus;
-    /** JSR303、JSR 349 验证信息 */
+    /** 异常信息、JSR380 验证信息 */
     String validatorMsg;
 
     /** 元信息 */
     HeadMetadata headMetadata;
 
-    /** 业务数据的 class 信息 */
-    Class<?> dataClass;
+    /**
+     * 业务数据的 class 信息
+     * <pre>
+     *     https://gitee.com/iohao/iogame/issues/I5G0FC
+     * </pre>
+     */
+    String dataClass;
     /** 实际请求的业务参数 byte[] */
     @JSONField(serialize = false)
     byte[] data;
@@ -67,7 +72,7 @@ public abstract sealed class BarMessage implements Serializable, ToJson permits 
 
     public BarMessage setData(Object data) {
         // 保存一下业务数据的 class
-        this.dataClass = data.getClass();
+        this.dataClass = data.getClass().getName();
 
         byte[] bytes = DataCodecKit.encode(data);
         return this.setData(bytes);

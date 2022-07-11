@@ -16,6 +16,7 @@
  */
 package com.iohao.game.action.skeleton.core;
 
+import com.iohao.game.common.kit.CollKit;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -24,20 +25,18 @@ import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
-import org.hibernate.validator.HibernateValidator;
 
 import java.util.Objects;
 import java.util.Set;
 
 
 /**
- * 验证相关
+ * 验证相关，主要用户验证业务参数
  * <pre>
- *     符合 JSR-303、JSR 349。这里使用 hibernate-validator
+ *     符合 JSR-380标准的校验。这里使用 hibernate-validator
  *
- *     主要用户验证业务参数
- *
- *     使用验证时需自行引入 hibernate-validator 包
+ *     用户需引入validation-api的实现，如：hibernate-validator
+ *     注意：hibernate-validator还依赖了javax.el，需自行引入。
  * </pre>
  *
  * @author 渔民小镇
@@ -55,11 +54,13 @@ public class ValidatorKit {
         }
 
         ValidatorFactory validatorFactory = Validation
-                .byProvider(HibernateValidator.class)
-                .configure()
+                .buildDefaultValidatorFactory()
+//                .byDefaultProvider()
+//                .configure()
                 // true  快速失败返回模式    false 普通模式
-                .addProperty("hibernate.validator.fail_fast", "true")
-                .buildValidatorFactory();
+//                .failFast(true)
+//                .buildValidatorFactory()
+                ;
 
         validator = validatorFactory.getValidator();
         return validator;
@@ -68,12 +69,13 @@ public class ValidatorKit {
     public String validate(Object data) {
         // 验证参数
         Set<ConstraintViolation<Object>> violationSet = getValidator().validate(data);
-        if (violationSet.isEmpty()) {
+        if (CollKit.isEmpty(violationSet)) {
             return null;
         }
 
         for (ConstraintViolation<Object> violation : violationSet) {
-            return violation.getMessage();
+            String propertyName = violation.getPropertyPath().toString();
+            return propertyName + " " + violation.getMessage();
         }
 
         return null;
@@ -91,7 +93,7 @@ public class ValidatorKit {
      */
     void buildValidator(BarSkeletonSetting setting, ActionCommand.Builder builder) {
         if (!setting.validator) {
-            // 没开启 JSR303、JSR 349 验证， 不做处理
+            // 没开启 JSR380 验证， 不做处理
             return;
         }
 

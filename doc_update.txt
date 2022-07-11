@@ -1,3 +1,45 @@
+2022-07-11
+v17.1.2 (#I5G0FC、#I5GB1D)
+
+3类通讯方式，逻辑服间的相互通信相关
+InvokeModuleContext，新增无参请求方法，单个逻辑服与单个逻辑服通信请求 invokeModuleMessage
+
+变更 BarMessage 成员变量类型（#I5G0FC）
+BarMessage.dataClass 字段，由 Class<?> 类型改为 String类型
+具体的原因可以查看 issu https://gitee.com/iohao/iogame/issues/I5G0FC
+
+当建立多个项目时，在游戏逻辑服处理完业务却无法响应数据到请求端；但可以接收到来自请求端的请求数据； 由于 dataClass 变量是 Class<?> 类型的，如果游戏对外服、游戏网关服没有对应的 class 会造成解码失败，而引发 ClassNotFoundException
+
+将 BarMessage.dataClass 改为 String 类型，这样即使没有在 游戏对外服、游戏网关、游戏逻辑服中引入 PB 业务类，也不会引发这些问题！
+
+将 dataClass 改为 String 类型，这些改动不会对开发者造成影响！
+
+新增综合示例 （#I5GB1D）
+综合示例文档 https://www.yuque.com/iohao/game/ruaqza
+
+综合示例内容包含
+1. 多服多进程的方式部署
+2. 多服单进程的方式部署（类似单体应用的方式部署与开发）
+3. springboot 集成
+4. JSR380验证
+5. 断言 + 异常机制 = 清晰简洁的代码
+6. 请求、无响应
+7. 请求、响应
+8. 广播指定玩家
+9. 广播全服玩家
+10. 单个逻辑服与单个逻辑服通信请求 - 有返回值（可跨进程）
+11. 单个逻辑服与单个逻辑服通信请求 - 无返回值（可跨进程）
+12. 单个逻辑服与同类型多个逻辑服通信请求（可跨进程）
+13. 业务参数自动装箱、拆箱基础类型（解决协议碎片问题）
+14. 游戏文档生成
+15. 业务协议文件 .proto 的生成
+
+JSR380相关
+移除 JSR303 相关，使用符合 JSR380 标准的校验。这里推荐使用 hibernate-validator 用户需引入validation-api的实现，如：hibernate-validator。注意：hibernate-validator 还依赖了javax.el，需自行引入。
+具体使用可以查看 https://www.yuque.com/iohao/game/ghng6g
+
+增加，当触发 JSR380 验证时，会给请求端一些对应的错误信息
+
 
 2022-07-06
 v17.1.1 (上传到中央仓库)

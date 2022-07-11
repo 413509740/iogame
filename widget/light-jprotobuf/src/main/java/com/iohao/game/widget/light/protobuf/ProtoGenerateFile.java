@@ -22,9 +22,7 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -77,8 +75,6 @@ public class ProtoGenerateFile {
             FileUtil.writeUtf8String(protoString, protoFilePath);
         };
 
-
         regionMap.values().forEach(javaRegionConsumer);
-
     }
 }

@@ -80,6 +80,7 @@ public class BrokerClientItem implements BroadcastContext, ProcessorContext, Inv
 
     /** 与 broker 通信的连接 */
     Connection connection;
+    /** ip:port*/
     String address;
     /** 消息发送超时时间 */
     int timeoutMillis = BrokerGlobalConfig.timeoutMillis;

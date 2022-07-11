@@ -16,63 +16,34 @@
  */
 package com.iohao.game.action.skeleton.core.action.pojo;
 
-import com.iohao.game.action.skeleton.core.ValidatorKit;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Path;
-import jakarta.validation.Validator;
-import jakarta.validation.constraints.*;
-import jakarta.validation.metadata.BeanDescriptor;
-import jakarta.validation.metadata.PropertyDescriptor;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
-import java.util.Set;
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
  * @author 渔民小镇
  * @date 2022-01-16
  */
-@Slf4j
-@Data
+@ToString
+@ProtobufClass
+@FieldDefaults(level = AccessLevel.PUBLIC)
 public class DogValid {
-    @NotNull(message = "名字")
-    private String name;
+    @NotNull(message = "名字不能为 null")
+    String name;
 
-    @NotNull(message = "梦露")
+    @NotNull(message = "不能为 null")
     @Size(min = 2, max = 14)
-    private String licensePlate;
+    String licensePlate;
 
     @Min(2)
-    private int seatCount;
+    int seatCount;
 
     int age;
 
     String nickname;
 
-    @Test
-    public void name() {
-        DogValid dogValid = new DogValid();
-        dogValid.setName("abc");
-        Validator validator = ValidatorKit.getValidator();
-
-
-        BeanDescriptor constraintsForClass = validator.getConstraintsForClass(DogValid.class);
-        Set<PropertyDescriptor> constrainedProperties = constraintsForClass.getConstrainedProperties();
-        log.info("c : {}", constraintsForClass);
-
-        Set<ConstraintViolation<DogValid>> validate = validator.validate(dogValid);
-
-
-        log.info("{}", validate.size());
-
-        for (ConstraintViolation<DogValid> violation : validate) {
-            log.info("{}", validate);
-            String message = violation.getMessage();
-            Path propertyPath = violation.getPropertyPath();
-
-            log.info("message {}, path: {}", message, propertyPath.toString());
-        }
-
-    }
 }

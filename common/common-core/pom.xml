@@ -64,17 +64,27 @@
             <version>${qdox.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.caucho/hessian -->
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>${hessian.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.validation</groupId>
-                    <artifactId>jakarta.validation-api</artifactId>
-                </exclusion>
-            </exclusions>
+
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>jakarta.validation</groupId>-->
+            <!--                    <artifactId>jakarta.validation-api</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
+            <!--            <scope>provided</scope>-->
+            <scope>test</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.glassfish/jakarta.el -->
@@ -83,6 +93,9 @@
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <version>${jakarta.el.version}</version>
+            <!--            <scope>provided</scope>-->
+            <scope>test</scope>
+
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
@@ -91,6 +104,8 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation-api.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
 
@@ -103,12 +118,7 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/com.caucho/hessian -->
-        <dependency>
-            <groupId>com.caucho</groupId>
-            <artifactId>hessian</artifactId>
-            <version>${hessian.version}</version>
-        </dependency>
+
     </dependencies>
 
 

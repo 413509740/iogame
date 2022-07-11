@@ -84,6 +84,9 @@ public class BarSkeletonDoc {
 
         List<String> docContentList = new ArrayList<>(128);
 
+        // 加上游戏文档格式说明
+        this.gameDocURLDescription(docContentList);
+
         Consumer<ActionCommand[][]> consumer = behaviors -> {
 
             for (ActionCommand[] subBehaviors : behaviors) {
@@ -122,6 +125,17 @@ public class BarSkeletonDoc {
 
         String docText = String.join("", docContentList);
         FileUtil.writeUtf8String(docText, docPath);
+    }
+
+    private void gameDocURLDescription(List<String> docContentList) {
+        // 加上游戏文档格式说明
+        String gameDocInfo = """
+                ==================== 游戏文档格式说明 ====================
+                https://www.yuque.com/iohao/game/irth38#cJLdC
+                
+                """;
+
+        docContentList.add(gameDocInfo);
     }
 
     private void extractedErrorCode(List<String> docContentList) {

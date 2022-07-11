@@ -19,6 +19,7 @@ package com.iohao.game.action.skeleton.core.action;
 import com.iohao.game.action.skeleton.annotation.ActionController;
 import com.iohao.game.action.skeleton.annotation.ActionMethod;
 import com.iohao.game.action.skeleton.core.action.pojo.BeeApple;
+import com.iohao.game.action.skeleton.core.action.pojo.DogValid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,5 +57,10 @@ public class BeeAction {
         // 响应给客户端的数据 string 类型. 框架可根据返回参数类型将返回结果装到响应体中
         BeeApple that = new BeeApple();
         that.setContent(beeApple.content + "，I'm thatVoid");
+    }
+
+    @ActionMethod(ExampleActionCont.BeeActionCont.jsr380)
+    public void jsr380(DogValid dogValid) {
+        log.info("dogValid : {}", dogValid);
     }
 }

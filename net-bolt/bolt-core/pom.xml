@@ -12,18 +12,18 @@
 
     <artifactId>bolt-core</artifactId>
 
-    <properties>
-
-
-        <eclipse-collections.version>11.0.0</eclipse-collections.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
             <groupId>com.iohao.game</groupId>
             <artifactId>common-core</artifactId>
             <version>${project.parent.version}</version>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.hibernate.validator</groupId>-->
+<!--                    <artifactId>hibernate-validator</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
     </dependencies>
